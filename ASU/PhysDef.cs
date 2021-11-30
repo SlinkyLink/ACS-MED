@@ -1,36 +1,36 @@
 namespace ASU
 {
-    public class Perms : DBTable
+    public class PhysDef : DBTable
     {
         public int ID {get; private set;}
-        public string CreatedBy {get; private set;}
-        public string CreatedAt {get; private set;} //DATE
-        public string Key {get; private set;}
+        public string Name {get; private set;}
+        public string CreatedAt {get; private set;}
+        public string Category {get; private set;}
         public string Desc {get; private set;}
 
-        private Perms() {}
-        
-        public Perms( int ID, 
-                      string CreatedBy, 
-                      string CreatedAt, 
-                      string Key,
-                      string Desc) 
+        private PhysDef() {}
+
+        public PhysDef( int ID,
+                        string Name,
+                        string CreatedAt,
+                        string Category,
+                        string Desc)
         {
             this.ID = ID;
-            this.CreatedBy = CreatedBy;
+            this.Name = Name;
             this.CreatedAt = CreatedAt;
-            this.Key = Key;
+            this.Category = Category;
             this.Desc = Desc;
         }
 
         public override string GetDATA()
         {
-            return @$"|->{ID}<-|->{CreatedBy}<-|->{CreatedAt}<-|->{Key}<-|->{Desc}<-|";
+            return @$"|->{ID}<-|->{Name}<-|->{CreatedAt}<-|->{Category}<-|->{Desc}<-|";
         }
-
+        
         public override string cmdAddDB()
         {
-            VARIBLE = $"({ID}, '{CreatedBy}', {CreatedAt}, '{Key}', '{Desc}')";
+            VARIBLE = $"({ID}, '{Name}', {CreatedAt}, '{Category}', '{Desc}')";
 
             return base.cmdAddDB();
         }
@@ -38,9 +38,9 @@ namespace ASU
         public override string cmdDellDB(string Value)
         {
             string temp;
-            if(CreatedBy == Value) temp = "CreatedBy";
+            if(Name == Value) temp = "Name";
             else if(CreatedAt == Value) temp = "CreatedAt";
-            else if(Key == Value) temp = "Key";
+            else if(Category == Value) temp = "Category";
             else if(Desc == Value) temp = "Desc";
             else return ErrorExceptrionSTR;
             VARIBLE = $"{temp} = '{Value}'";
@@ -55,6 +55,5 @@ namespace ASU
             VARIBLE = $"{temp} = {Value}";
             return base.cmdDellDB(Value);
         }
-
     }
 }

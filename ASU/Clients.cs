@@ -1,6 +1,6 @@
 namespace ASU
 {
-    public class Clients
+    public class Clients : DBTable
     {
         public int ID {get; private set;}
         public string Username {get; private set;}
@@ -21,6 +21,39 @@ namespace ASU
             this.DateStart = DateStart;
             this.DateEnd = DateEnd;
             this.CreatedAt = CreatedAt;
+        }
+
+        public override string GetDATA()
+        {
+            return @$"|->{ID}<-|->{Username}<-|->{DateStart}<-|->{DateEnd}<-|->{CreatedAt}<-|";
+        }
+
+        public override string cmdAddDB()
+        {
+            VARIBLE = $"({ID}, '{Username}', {DateStart}, {DateEnd}, {CreatedAt})";
+
+            return base.cmdAddDB();
+        }
+
+        public override string cmdDellDB(string Value)
+        {
+            string temp;
+            if(Username == Value) temp = "Username";
+            else if(DateStart == Value) temp = "DateStart";
+            else if(DateEnd == Value) temp = "DateEnd";
+            else if(CreatedAt == Value) temp = "CreatedAt";
+            else return ErrorExceptrionSTR;
+            VARIBLE = $"{temp} = '{Value}'";
+            return base.cmdDellDB(Value);
+        }
+
+        public override string cmdDellDB(int Value)
+        {
+            string temp;
+            if(Value == ID) temp = "ID";
+            else return ErrorExceptrionSTR;
+            VARIBLE = $"{temp} = {Value}";
+            return base.cmdDellDB(Value);
         }
     }
 }

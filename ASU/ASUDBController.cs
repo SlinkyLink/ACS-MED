@@ -11,462 +11,303 @@ namespace ASU
             SQLiteConnection DataBase;
             SQLiteCommand CmdDataBase;
             SQLiteDataReader ReaderDataBase;
-
             
+            List<DBTable> Tables;
+
+        
             public ASUDBController()
             {
                 DataBase = new("Data Source = asu.db; Version = 3;");
+                DataBase.Open();
                 CmdDataBase = new();
+                Tables = new();
                 CmdDataBase.Connection = DataBase;
+                __Update();
             }
 
-            public void AddData<T>( object one = null,
-                                    object two = null,
-                                    object three = null,
-                                    object four = null,
-                                    object five = null,
-                                    object six = null)
+
+            public void AddData(DBTable table)
             {
-                Dictionary<Type, Action> @switch = new()
+                CmdDataBase.CommandText = table.cmdAddDB();
+                CmdDataBase.ExecuteNonQuery();
+                __Update(); 
+            }
+
+
+            public void DellData(DBTable table, object value)
+            {
+                if(value is int valueINT)
+                    CmdDataBase.CommandText = table.cmdDellDB(valueINT);
+                else if(value is string valueSTRING)
+                    CmdDataBase.CommandText = table.cmdDellDB(valueSTRING);
+                if(CmdDataBase.CommandText != DBTable.ErrorExceptrionSTR)
+                    CmdDataBase.ExecuteNonQuery();
+                __Update();
+            }
+
+            
+            public void DBClose()
+            {
+                if(ReaderDataBase != null)
                 {
+                    if(!ReaderDataBase.IsClosed)
                     {
-                        typeof(AccAction), () =>
-                        {
-                            if(five != null)
-                            {
-                                Console.WriteLine("For AccAction must be 4 attributes");
-                                return;
-                            }
-                            if( one == null ||
-                                two == null ||
-                                three == null ||
-                                four == null )
-                            {
-                                Console.WriteLine("Not null attributes!");
-                                return;
-                            }
-                            if( one is int ID &&
-                                two is string CreatedBy &&
-                                three is string CreatedAt &&
-                                four is string Action)
-                            {
-                                WriteInDB<AccAction>(new AccAction(ID, CreatedBy, CreatedAt, Action));
-                            }
-                        } 
-                    },
+                        ReaderDataBase.Close();
+                    }
+                }
+                DataBase.Close();
+            }
+
+            public string GetDATAs()
+            {
+                string temp = "";
+                foreach(var table in Tables)
+                {
+                    temp += $"{table.GetName()}\t{table.GetDATA()}\n";
+                }
+                return temp;
+            }
+
+            public string GetDATA(string ntable)
+            {
+                string temp = "";
+                foreach(var table in Tables)
+                {
+                    if(table.GetName() == ntable)
                     {
-                        typeof(Accounts), () =>
+                        temp += $"{table.GetDATA()}\n";
+                    }
+                }
+                return temp;
+            }
+
+
+
+            private void __Update()
+            {
+                if(Tables.Count > 0)
+                    Tables.Clear();
+
+                List<string> tables = new();
+
+                CmdDataBase.CommandText = @"SELECT name
+                                            FROM sqlite_schema
+                                            WHERE type ='table' AND name NOT LIKE 'sqlite_%';";
+                ReaderDataBase = CmdDataBase.ExecuteReader();
+                while(ReaderDataBase.Read())
+                {
+                    tables.Add(ReaderDataBase.GetString(0));
+                }
+                ReaderDataBase.Close();
+
+                foreach(var table in tables)
+                {
+                    
+                    CmdDataBase.CommandText = $"SELECT * FROM {table}";
+                    ReaderDataBase = CmdDataBase.ExecuteReader();
+                    while(ReaderDataBase.Read())
+                    {
+                        if(table == "AccActions")
                         {
-                             if(five != null)
-                            {
-                                Console.WriteLine("For Accounts must be 4 attributes");
-                                return;
-                            }
-                            if( one == null ||
-                            two == null ||
-                            three == null ||
-                            four == null )
-                            {
-                                Console.WriteLine("Not null attributes!");
-                                return;
-                            }
-                            if( one is int ID &&
-                                two is string Username &&
-                                three is string CreatedBy &&
-                                four is string CreatedAt)
-                            {
-                                WriteInDB<Accounts>(new Accounts(ID, Username, CreatedBy, CreatedAt));
-                            }
+                            Tables.Add
+                            (
+                                new AccActions
+                                (  
+                                    ReaderDataBase.GetInt32(0),
+                                    ReaderDataBase.GetString(1),
+                                    ReaderDataBase.GetString(2),
+                                    ReaderDataBase.GetString(3)
+                                )
+                            );
                         }
-                    },
-                    {
-                        typeof(Clients), () =>
+                        else if(table == "Accounts")
                         {
-                            if(six != null)
-                            {
-                                Console.WriteLine("For Clients must be 5 attributes");
-                                return;
-                            }
-                            if( one == null ||
-                            two == null ||
-                            three == null ||
-                            four == null ||
-                            five == null)
-                            {
-                                Console.WriteLine("Not null attributes!");
-                                return;
-                            }
-                            if( one is int ID &&
-                                two is string Username &&
-                                three is string DateStart &&
-                                four is string DateEnd &&
-                                five is string CreatedAt)
-                            {
-                                WriteInDB<Clients>(new Clients(ID, Username, DateStart, DateEnd, CreatedAt));
-                            }
+                            Tables.Add
+                            (
+                                new Accounts
+                                (  
+                                    ReaderDataBase.GetInt32(0),
+                                    ReaderDataBase.GetString(1),
+                                    ReaderDataBase.GetString(2),
+                                    ReaderDataBase.GetString(3)
+                                )
+                            );
                         }
-                    },
-                    {
-                        typeof(DocsCl), () =>
+                        else if(table == "Clients")
                         {
-                            if(three != null)
-                            {
-                                Console.WriteLine("For DocsCl must be 2 attributes");
-                                return;
-                            }
-                            if( one == null ||
-                                two == null )
-                            {
-                                Console.WriteLine("Not null attributes!");
-                                return;
-                            }
-                            if( one is int AccId &&
-                                two is int DocID )
-                            {
-                                WriteInDB<DocsCl>(new DocsCl(AccId, DocID));
-                            }
+                            Tables.Add
+                            (
+                                new Clients
+                                (  
+                                    ReaderDataBase.GetInt32(0),
+                                    ReaderDataBase.GetString(1),
+                                    ReaderDataBase.GetString(2),
+                                    ReaderDataBase.GetString(3),
+                                    ReaderDataBase.GetString(4)
+                                )
+                            );
                         }
-                    },
-                    {
-                        typeof(Doctors), () =>
+                        else if(table == "DocsCl")
                         {
-                             if(five != null)
-                            {
-                                Console.WriteLine("For Doctors must be 4 attributes");
-                                return;
-                            }
-                            if( one == null ||
-                            two == null ||
-                            three == null ||
-                            four == null )
-                            {
-                                Console.WriteLine("Not null attributes!");
-                                return;
-                            }
-                            if( one is int ID &&
-                                two is string Username &&
-                                three is string CreatedAt &&
-                                four is string CreatedBy)
-                            {
-                                WriteInDB<Doctors>(new Doctors(ID, Username, CreatedAt, CreatedBy));
-                            }
+                            Tables.Add
+                            (
+                                new DocsCl
+                                (  
+                                    ReaderDataBase.GetInt32(0),
+                                    ReaderDataBase.GetInt32(1)
+                                )
+                            );
                         }
-                    },                
-                    {
-                        typeof(GroupPerms), () =>
+                        else if(table == "Doctors")
                         {
-                             if(three != null)
-                            {
-                                Console.WriteLine("For GroupPerms must be 2 attributes");
-                                return;
-                            }
-                            if( one == null ||
-                                two == null)
-                            {
-                                Console.WriteLine("Not null attributes!");
-                                return;
-                            }
-                            if( one is int GroupID &&
-                                two is int PermID )
-                            {
-                                WriteInDB<GroupPerms>(new GroupPerms(GroupID, PermID));
-                            }
+                            Tables.Add
+                            (
+                                new Doctors
+                                (  
+                                    ReaderDataBase.GetInt32(0),
+                                    ReaderDataBase.GetString(1),
+                                    ReaderDataBase.GetString(2),
+                                    ReaderDataBase.GetString(3)
+                                )
+                            );
                         }
-                    },          
-                    {
-                        typeof(Perms), () =>
+                        else if(table == "DrugsDef")
                         {
-                            if(six != null)
-                            {
-                                Console.WriteLine("For Perms must be 5 attributes");
-                                return;
-                            }
-                            if( one == null ||
-                                two == null ||
-                                three == null ||
-                                four == null ||
-                                five == null)
-                            {
-                                Console.WriteLine("Not null attributes!");
-                                return;
-                            }
-                            if( one is int ID &&
-                                two is string CreatedBy &&
-                                three is string CreatedAt &&
-                                four is string Key &&
-                                five is string Desc)
-                            {
-                                WriteInDB<Perms>(new Perms(ID, CreatedBy, CreatedAt, Key, Desc));
-                            }
+                            Tables.Add
+                            (
+                                new DrugsDef
+                                (  
+                                    ReaderDataBase.GetInt32(0),
+                                    ReaderDataBase.GetString(1),
+                                    ReaderDataBase.GetInt32(2),
+                                    ReaderDataBase.GetString(3),
+                                    ReaderDataBase.GetString(4)
+                                )
+                            );
                         }
-                    },
-                    {
-                        typeof(Plan), () =>
+                        else if(table == "GroupPerms")
                         {
-                            if( one == null ||
-                            two == null ||
-                            three == null ||
-                            four == null ||
-                            six == null)
-                            {
-                                Console.WriteLine("Not null attributes!");
-                                return;
-                            }
-                            if( one is int ID &&
-                                two is string Username &&
-                                three is string PlanAction &&
-                                four is string CreatedBy &&
-                                five is string CreatedAt &&
-                                six is string Desc)
-                            {
-                                WriteInDB<Plan>(new Plan(ID, Username, PlanAction, CreatedBy, CreatedAt, Desc));
-                            }
+                            Tables.Add
+                            (
+                                new GroupPerms
+                                (  
+                                    ReaderDataBase.GetInt32(0),
+                                    ReaderDataBase.GetInt32(1)
+                                )
+                            );
                         }
-                    },
-                    {
-                        typeof(PlanningCl), () =>
+                        else if(table == "Perms")
                         {
-                            if(three != null)
-                            {
-                                Console.WriteLine("For PlanningCl must be 2 attributes");
-                                return;
-                            }
-                            if( one == null ||
-                            two == null )
-                            {
-                                Console.WriteLine("Not null attributes!");
-                                return;
-                            }
-                            if( one is int ClientID &&
-                                two is int PlanID )
-                            {
-                                WriteInDB<PlanningCl>(new PlanningCl(ClientID, PlanID));
-                            }
+                            Tables.Add
+                            (
+                                new Perms
+                                (  
+                                    ReaderDataBase.GetInt32(0),
+                                    ReaderDataBase.GetString(1),
+                                    ReaderDataBase.GetString(2),
+                                    ReaderDataBase.GetString(3),
+                                    ReaderDataBase.GetString(4)
+                                )
+                            );
                         }
-                    },
-                    {
-                        typeof(RankGroups), () =>
+                        else if(table == "PhysDef")
                         {
-                            if(six != null)
-                            {
-                                Console.WriteLine("For RankGroups must be 5 attributes");
-                                return;
-                            }
-                            if( one == null ||
-                                two == null ||
-                                three == null ||
-                                four == null ||
-                                five == null ) 
-                            {
-                                Console.WriteLine("Not null attributes!");
-                                return;
-                            }
-                            if( one is int ID &&
-                                two is string CreatedBy &&
-                                three is string CreatedAt &&
-                                four is string Name &&
-                                five is string ShortName)
-                            {
-                                WriteInDB<RankGroups>(new RankGroups(ID, CreatedBy, CreatedAt, Name, ShortName));
-                            }
+                            Tables.Add
+                            (
+                                new PhysDef
+                                (  
+                                    ReaderDataBase.GetInt32(0),
+                                    ReaderDataBase.GetString(1),
+                                    ReaderDataBase.GetString(2),
+                                    ReaderDataBase.GetString(3),
+                                    ReaderDataBase.GetString(4)
+                                )
+                            );
                         }
-                    },
-                    {
-                        typeof(RankSys), () =>
+                        else if(table == "Plan")
                         {
-                            if(three != null)
-                            {
-                                Console.WriteLine("For RankSys must be 2 attributes");
-                                return;
-                            }
-                            if( one == null ||
-                                two == null )
-                            {
-                                Console.WriteLine("Not null attributes!");
-                                return;
-                            }
-                            if( one is int UserID &&
-                                two is int RankID )
-                            {
-                                WriteInDB<RankSys>(new RankSys(UserID, RankID));
-                            }
+                            Tables.Add
+                            (
+                                new Plan
+                                (  
+                                    ReaderDataBase.GetInt32(0),
+                                    ReaderDataBase.GetString(1),
+                                    ReaderDataBase.GetString(2),
+                                    ReaderDataBase.GetString(3),
+                                    ReaderDataBase.GetString(4),
+                                    ReaderDataBase.GetString(5)
+                                )
+                            );
                         }
-                    },
-                    {
-                        typeof(UseDocsCl), () =>
+                        else if(table == "PlanningCl")
                         {
-                            if(three != null)
-                            {
-                                Console.WriteLine("For UseDocsCl must be 2 attributes");
-                                return;
-                            }
-                            if( one == null ||
-                                two == null )
-                            {
-                                Console.WriteLine("Not null attributes!");
-                                return;
-                            }
-                            if( one is int DocID &&
-                                two is int ClientID )
-                            {
-                                WriteInDB<UseDocsCl>(new UseDocsCl(DocID, ClientID));
-                            }
+                            Tables.Add
+                            (
+                                new PlanningCl
+                                (  
+                                    ReaderDataBase.GetInt32(0),
+                                    ReaderDataBase.GetInt32(1)
+                                )
+                            );
+                        }
+                        else if(table == "RankGroups")
+                        {
+                            Tables.Add
+                            (
+                                new RankGroups
+                                (  
+                                    ReaderDataBase.GetInt32(0),
+                                    ReaderDataBase.GetString(1),
+                                    ReaderDataBase.GetString(2),
+                                    ReaderDataBase.GetString(3),
+                                    ReaderDataBase.GetString(4)
+                                )
+                            );
+                        }
+                        else if(table == "RankSys")
+                        {
+                            Tables.Add
+                            (
+                                new RankSys
+                                (  
+                                    ReaderDataBase.GetInt32(0),
+                                    ReaderDataBase.GetInt32(1)
+                                )
+                            );
+                        }
+                        else if(table == "Sheduler")
+                        {
+                            Tables.Add
+                            (
+                                new Sheduler
+                                (  
+                                    ReaderDataBase.GetInt32(0),
+                                    ReaderDataBase.GetInt32(1),
+                                    ReaderDataBase.GetInt32(2),
+                                    ReaderDataBase.GetString(3),
+                                    ReaderDataBase.GetInt32(4),
+                                    ReaderDataBase.GetInt32(5)
+                                )
+                            );
+                        }
+                        else if(table == "UseDocsCl")
+                        {
+                            Tables.Add
+                            (
+                                new UseDocsCl
+                                (  
+                                    ReaderDataBase.GetInt32(0),
+                                    ReaderDataBase.GetInt32(1)
+                                )
+                            );
                         }
                     }
-
-                };
-                @switch[typeof(T)]();
-                return;   
-            }
-
-            
-            private void WriteInDB<T>(T data)
-            {
-                Dictionary<Type, Action> @switch = new()
-                {
-                    {
-                        typeof(AccAction), () => 
-                        {
-                            
-                            if(data is AccAction DATA)
-                            {
-                                CmdDataBase.CommandText = @$" INSERT INTO {DATA.GetType().Name} (ID, CreatedBy, CreatedAt, Action)
-                                                              VALUES ( {DATA.ID}, '{DATA.CreatedBy}', {DATA.CreatedAt}, '{DATA.Action}' )";
-                                CmdDataBase.ExecuteNonQuery();
-                            }
-                        }
-                    },
-                    {
-                        typeof(Accounts), () => 
-                        {
-                            
-                            if(data is Accounts DATA)
-                            {
-                                CmdDataBase.CommandText = @$" INSERT INTO {DATA.GetType().Name} (ID, Username, CreatedBy, CreatedAt)
-                                                              VALUES ({DATA.ID}, '{DATA.Username}', '{DATA.CreatedBy}', {DATA.CreatedAt})";
-                                CmdDataBase.ExecuteNonQuery();
-                            }
-                        }
-                    },
-                    {
-                        typeof(Clients), () => 
-                        {
-                            if(data is Clients DATA)
-                            {
-                                CmdDataBase.CommandText = @$" INSERT INTO Clients (ID, Username, DateStart, DateEnd, CreatedAt)
-                                                              VALUES ( {DATA.ID}, '{DATA.Username}', '{DATA.DateStart}', '{DATA.DateEnd}', {DATA.CreatedAt} )";
-                                CmdDataBase.ExecuteNonQuery();
-                               
-                            }
-                        }
-                    },
-                    {
-                        typeof(DocsCl), () => 
-                        {
-                            if(data is DocsCl DATA)
-                            {
-                                CmdDataBase.CommandText = @$" INSERT INTO {DATA.GetType().Name} ( AccId, DocID )
-                                                              VALUES ( {DATA.AccID}, {DATA.DocID} )";
-                                CmdDataBase.ExecuteNonQuery();
-                            }
-                        }
-                    },
-                    {
-                        typeof(Doctors), () => 
-                        {
-                            if(data is Doctors DATA)
-                            {
-                                CmdDataBase.CommandText = @$" INSERT INTO {DATA.GetType().Name} ( ID, Username,  CreatedAt, CreatedBy)
-                                                              VALUES ( {DATA.ID}, '{DATA.Username}', {DATA.CreatedAt}, '{DATA.CreatedBy}' )";
-                                CmdDataBase.ExecuteNonQuery();
-                            }
-                        }
-                    },
-                    {
-                        typeof(GroupPerms), () => 
-                        {
-                            if(data is GroupPerms DATA)
-                            {
-                                CmdDataBase.CommandText = @$" INSERT INTO {DATA.GetType().Name} ( GroupID, PermID )
-                                                              VALUES ( {DATA.GroupID}, {DATA.PermID} )";
-                                CmdDataBase.ExecuteNonQuery();
-                            }
-                        }
-                    },
-                    {
-                        typeof(Perms), () => 
-                        {
-                            if(data is Perms DATA)
-                            {
-                                CmdDataBase.CommandText = @$" INSERT INTO {DATA.GetType().Name} ( ID, CreatedBy, CreatedAt, Key, Desc )
-                                                              VALUES ( {DATA.ID}, '{DATA.CreatedBy}', {DATA.CreatedAt}, '{DATA.Key}', '{DATA.Desc}' )";
-                                CmdDataBase.ExecuteNonQuery();
-                            }
-                        }
-                    },
-                    {
-                        typeof(Plan), () => 
-                        {
-                            if(data is Plan DATA)
-                            {
-                                CmdDataBase.CommandText = @$" INSERT INTO {DATA.GetType().Name} ( ID, Username, PlanAction, CreatedBy, CreatedAt, Desc )
-                                                              VALUES ( {DATA.ID}, '{DATA.Username}', '{DATA.PlanAction}', '{DATA.CreatedBy}', {DATA.CreatedAt}, '{DATA.Desc}' )";
-                                CmdDataBase.ExecuteNonQuery();
-                            }
-                        }
-                    },
-                    {
-                        typeof(PlanningCl), () => 
-                        {
-                            if(data is PlanningCl DATA)
-                            {
-                                CmdDataBase.CommandText = @$" INSERT INTO {DATA.GetType().Name} ( ClientID, PlanID )
-                                                              VALUES ( {DATA.ClientID}, {DATA.PlanID} )";
-                                CmdDataBase.ExecuteNonQuery();
-                            }
-                        }
-                    },
-                    {
-                        typeof(RankGroups), () => 
-                        {
-                            if(data is RankGroups DATA)
-                            {
-                                CmdDataBase.CommandText = @$" INSERT INTO {DATA.GetType().Name} ( ID, CreatedBy, CreatedAt, Name, ShortName )
-                                                              VALUES ( {DATA.ID}, '{DATA.CreatedBy}', {DATA.CreatedAt}, '{DATA.Name}', '{DATA.ShortName}' )";
-                                CmdDataBase.ExecuteNonQuery();
-                            }
-                        }
-                    },
-                    {
-                        typeof(RankSys), () => 
-                        {
-                            if(data is RankSys DATA)
-                            {
-                                CmdDataBase.CommandText = @$" INSERT INTO {DATA.GetType().Name} ( UserID, RankID )
-                                                              VALUES ( {DATA.UserID}, {DATA.RankID} )";
-                                CmdDataBase.ExecuteNonQuery();
-                            }
-                        }
-                    },
-                    {
-                        typeof(UseDocsCl), () => 
-                        {
-                            if(data is UseDocsCl DATA)
-                            {
-                                CmdDataBase.CommandText = @$" INSERT INTO {DATA.GetType().Name} ( DocID, ClientID )
-                                                              VALUES ( {DATA.DocID}, {DATA.ClientID} )";
-                                CmdDataBase.ExecuteNonQuery();
-                            }
-                        }
-                    },
-                };
-                DataBase.Open();
-                @switch[typeof(T)]();
-                DataBase.Close();
+                    ReaderDataBase.Close();
+                }
                 
             }
-            
+
+
         }
     }
-    
 }
