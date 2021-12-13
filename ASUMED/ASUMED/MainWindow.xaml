@@ -64,28 +64,27 @@
                         <RowDefinition />
                         <RowDefinition Height="1"/>
                     </Grid.RowDefinitions>
-
                     <Grid Grid.Row="0">
-                        <Border MaxHeight="40" MaxWidth="240"  Background="#FFB9EAFF" CornerRadius="15" Margin="2">
-                            <TextBox x:Name="textLogin"  MaxWidth="215" Background="Transparent" BorderThickness="0" FontSize="30" Foreground="White" TextAlignment="Center" VerticalContentAlignment="Center" TextChanged="textLogin_TextChanged" />
+                        <Border MaxHeight="40" MaxWidth="270"  Background="#FFB9EAFF" CornerRadius="15" Margin="2">
+                            <TextBox x:Name="textLogin"  MaxWidth="265" Background="Transparent" BorderThickness="0" FontSize="30" Foreground="White" TextAlignment="Center" VerticalContentAlignment="Center"/>
                         </Border>
                     </Grid>
                     <Grid Grid.Row="2">
-                        <Border MaxHeight="40" MaxWidth="240"  Background="#FFB9EAFF" CornerRadius="15" Margin="2">
-                            <PasswordBox x:Name="textPass" MaxWidth="215"  Background="Transparent"  BorderThickness="0" FontSize="30" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" PasswordChanged="textPass_PasswordChanged" />
+                        <Border MaxHeight="40" MaxWidth="270"  Background="#FFB9EAFF" CornerRadius="15" Margin="2">
+                            <PasswordBox x:Name="textPass" MaxWidth="265"  Background="Transparent"  BorderThickness="0" FontSize="30" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                         </Border>
                     </Grid>
                     <Grid Grid.Row="3">
-                        <Border HorizontalAlignment="Center" VerticalAlignment="Bottom" Background="#FFB9EAFF" MinHeight="30" MaxHeight="40" MinWidth="200" CornerRadius="15" MouseDown="Border_MouseDown">
-                            <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="25" Foreground="#FF93DBF7">
-                                Войти
+                        <Border HorizontalAlignment="Center" VerticalAlignment="Bottom" Background="#FFB9EAFF" MinHeight="30" MaxHeight="40" MinWidth="200" CornerRadius="15" Cursor="Hand" MouseDown="Border_MouseDown">
+                            <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe Print" FontSize="20" Foreground="Black">
+                                Увійти
                             </Label>
                         </Border>
                     </Grid>
                 </Grid>
             </Grid>
             <Grid Grid.Row="3">
-                <Label HorizontalAlignment="Center" FontWeight="Light" Margin="0,2,0,0" Foreground="#FF93DBF7" FontSize="12">
+                <Label HorizontalAlignment="Center" FontWeight="Light" Foreground="#FF57C3ED" FontSize="10">
                     MATY JOPA EBAL VASILYEVA INDUSTRIES
                 </Label>
             </Grid>

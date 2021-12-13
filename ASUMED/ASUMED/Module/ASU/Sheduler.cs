@@ -1,53 +1,47 @@
+using System;
+
 namespace ASUMED
 {
     public class Sheduler : DBTable
     {
-        public int ID {get; private set;}
-        public int ClientID {get; private set;}
-        public int DoctorID {get; private set;}
-        public string DateSheduler {get; private set;} //DATE
-        public int DrugID {get; private set;}
-        public int ActionID {get; private set;}
-
-        private Sheduler() {}
-
-        public Sheduler( int ID,
-                         int ClientID,
-                         int DoctorID,
-                         string DateSheduler,
-                         int DrugID,
-                         int ActionID)
+        public int ID {get; set;}
+        public int ClientID {get; set;}
+        public int DoctorID {get; set;}
+        public string DateTime {get; set;} //DATE
+        public int DrugID {get; set;}
+        public int ActionID {get; set;}
+        public Sheduler() {}
+        public override bool HaveData(string varible, object value)
         {
-            this.ID = ID;
-            this.ClientID = ClientID;
-            this.DoctorID = DoctorID;
-            this.DateSheduler = DateSheduler;
-            this.DrugID = DrugID;
-            this.ActionID = ActionID;
+            if (varible == "ID")
+                if (Convert.ToInt32(value) == ID) return true;
+            if (varible == "ClientID")
+                if (Convert.ToInt32(value) == ClientID) return true;
+            if (varible == "DoctorID")
+                if (Convert.ToInt32(value) == DoctorID) return true;
+            if (varible == "DateTime")
+                if ((string)value == DateTime) return true;
+            if (varible == "DrugID")
+                if (Convert.ToInt32(value) == DrugID) return true;
+            if (varible == "ActionID")
+                if (Convert.ToInt32(value) == ActionID) return true;
+            return false;
         }
-
-        public override string GetDATA()
-        {
-            return @$"|->{ID}<-|->{ClientID}<-|->{DoctorID}<-|->{DateSheduler}<-|->{DrugID}<-|->{ActionID}<-|";
-        }
-
         public override string cmdAddDB()
         {
 
-            VARIBLE = $"({ID},{ClientID}, {DoctorID}, {DateSheduler}, {DrugID}, {ActionID})";
+            VARIBLE = $"({ID},{ClientID}, {DoctorID}, {DateTime}, {DrugID}, {ActionID})";
 
             return base.cmdAddDB();
         }
-
         public override string cmdDellDB(string Value)
         {
             string temp;
-            if(DateSheduler == Value) temp = "DateSheduler";
+            if(DateTime == Value) temp = "DateTime";
             else return ErrorExceptrionSTR;
             VARIBLE = $"{temp} = '{Value}'";
             return base.cmdDellDB(Value);
         }
-
         public override string cmdDellDB(int Value)
         {
             string temp;

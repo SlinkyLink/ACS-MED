@@ -5,20 +5,30 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
     <ApplicationIcon>Sources\MedLogo.ico</ApplicationIcon>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pages\**" />
+    <EmbeddedResource Remove="Pages\**" />
+    <None Remove="Pages\**" />
+    <Page Remove="Pages\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Sources\AddIcon.png" />
     <None Remove="Sources\Cross.png" />
     <None Remove="Sources\CrossAct.png" />
     <None Remove="Sources\Line.png" />
     <None Remove="Sources\lineact.png" />
     <None Remove="Sources\LogoBlue.png" />
     <None Remove="Sources\MedBlue.png" />
+    <None Remove="Sources\Refresh.png" />
     <None Remove="Sources\Square.png" />
     <None Remove="Sources\SquareAct.png" />
     <None Remove="Sources\SS_logo_gray.png" />
+    <None Remove="Sources\Trash.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,6 +57,9 @@
     <Resource Include="Sources\MedBlue.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Sources\Refresh.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Sources\Square.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -54,6 +67,15 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Sources\SS_logo_gray.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sources\Trash.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Sources\AddIcon.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

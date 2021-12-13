@@ -1,0 +1,89 @@
+﻿<Page x:Class="ASUMED.Control.DoctorExePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ASUMED.Control"
+      mc:Ignorable="d" 
+      Title="DoctorExePage" Loaded="PageLoaded">
+    <Page.Resources>
+        <Style TargetType="Label" x:Key="VaribleLabel">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+        <Style TargetType="Border" x:Key="ValueBorder">
+            <Setter Property="Background" Value="#FFB9EAFF"/>
+            <Setter Property="CornerRadius" Value="7"/>
+            <Setter Property="Margin" Value="0 5 0 5"/>
+            <Setter Property="MinHeight" Value="20"/>
+            <Setter Property="MaxHeight" Value="20"/>
+            <Setter Property="MinWidth" Value="175"/>
+        </Style>
+        <Style TargetType="TextBox" x:Key="ValueTextBox">
+            <Setter Property="Width" Value="175"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Myriad Pro"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="Label" x:Key="PreviewText">
+            <Setter Property="FontSize" Value="15"/>
+        </Style>
+        <Style TargetType="Border" x:Key="BtnC">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Background" Value="#FFB9EAFF"/>
+            <Setter Property="MaxHeight" Value="30"/>
+            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="7*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel x:Name="VaribalesLabel" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center">
+                <Label Style="{StaticResource VaribleLabel}" Content="ПІБ"/>
+                <Label Style="{StaticResource VaribleLabel}" Content="ID Паспорту"/>
+                <Label Style="{StaticResource VaribleLabel}" Content="Логін"/>
+                <Label Style="{StaticResource VaribleLabel}" Content="Пароль"/>
+            </StackPanel>
+            <StackPanel x:Name="ValuesTextBox" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center">
+                <Border Style="{StaticResource ValueBorder}">
+                    <TextBox Style="{StaticResource ValueTextBox}" PreviewTextInput="DBControl_StrTextPreview"/>
+                </Border>
+                <Border Style="{StaticResource ValueBorder}">
+                    <TextBox Style="{StaticResource ValueTextBox}" PreviewTextInput="DBControl_IntTextPreview"/>
+                </Border>
+                <Border Style="{StaticResource ValueBorder}">
+                    <TextBox Style="{StaticResource ValueTextBox}"/>
+                </Border>
+                <Border Style="{StaticResource ValueBorder}">
+                    <TextBox Style="{StaticResource ValueTextBox}"/>
+                </Border>
+            </StackPanel>
+        </Grid>
+        <StackPanel Grid.Row="1" Grid.RowSpan="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
+            <Border x:Name="ExeBorder" Style="{StaticResource BtnC}" MouseDown="ExecuteBtn">
+                <Label HorizontalAlignment="Center" FontSize="15" Foreground="#FF93DBF7" />
+            </Border>
+            <Border Style="{StaticResource BtnC}" MouseDown="CloseWin">
+                <Label HorizontalAlignment="Center" FontSize="15" Foreground="#FF93DBF7">
+                    Відмова
+                </Label>
+            </Border>
+        </StackPanel>
+    </Grid>
+</Page>

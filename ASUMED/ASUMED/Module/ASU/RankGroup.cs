@@ -1,52 +1,41 @@
+using System;
 using System.Data.Common;
 namespace ASUMED
 {
     public class RankGroups : DBTable
     {
-        public int ID {get; private set;}
-        public string CreatedBy {get; private set;}
-        public string CreatedAt {get; private set;} //DATE
-        public string Name {get; private set;}
-        public string ShortName {get; private set;}
-
-        private RankGroups() {}
-
-        public RankGroups( int ID,
-                          string CreatedBy, 
-                          string CreatedAt, 
-                          string Name, 
-                          string ShortName )
+        public int ID {get; set;}
+        public string CreatedBy {get; set;}
+        public string CreatedAt {get; set;} //DATE
+        public string Name {get; set;}
+        public RankGroups() {}
+        public override bool HaveData(string varible, object value)
         {
-            this.ID = ID;
-            this.CreatedBy = CreatedBy;
-            this.CreatedAt = CreatedAt;
-            this.Name = Name;
-            this.ShortName = ShortName;
+            if (varible == "ID")
+                if (Convert.ToInt32(value) == ID) return true;
+            if (varible == "CreatedBy")
+                if ((string)value == CreatedBy) return true;
+            if (varible == "CreatedAt")
+                if ((string)value == CreatedAt) return true;
+            if (varible == "Name")
+                if ((string)value == Name) return true;
+            return false;
         }
-
-        public override string GetDATA()
-        {
-            return @$"|->{ID}<-|->{CreatedBy}<-|->{CreatedAt}<-|->{Name}<-|->{ShortName}<-|";
-        }
-
         public override string cmdAddDB()
         {
-            VARIBLE = $"({ID}, '{CreatedBy}', {CreatedAt}, '{Name}', '{ShortName}')";
+            VARIBLE = $"({ID}, '{CreatedBy}', {CreatedAt}, '{Name}')";
             return base.cmdAddDB();
         }
-
         public override string cmdDellDB(string Value)
         {
             string temp;
             if(CreatedAt == Value) temp = "CreatedAt";
             else if(CreatedBy == Value) temp = "CreatedBy";
             else if(Name == Value) temp = "Name";
-            else if(ShortName == Value) temp = "ShortName";
             else return ErrorExceptrionSTR;
             VARIBLE = $"{temp} = '{Value}'";
             return base.cmdDellDB(Value);
         }
-
         public override string cmdDellDB(int Value)
         {
             string temp;

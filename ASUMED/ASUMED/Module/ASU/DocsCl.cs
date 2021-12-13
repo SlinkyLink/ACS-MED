@@ -1,24 +1,23 @@
+using System;
+
 namespace ASUMED
 {
     public class DocsCl : DBTable
     {
-        public int AccID {get; private set;}
-        public int DocID {get; private set;}
+        public int AccID {get; set;}
+        public int DocID {get; set;}
 
-        private DocsCl() {}
+        public DocsCl() {}
 
-        public DocsCl( int AccID, 
-                       int DocID )
+        public override bool HaveData(string varible, object value)
         {
-            this.AccID = AccID;
-            this.DocID = DocID;
-        }
 
-        public override string GetDATA()
-        {
-            return @$"|->{AccID}<-|->{DocID}<-|";
+            if (varible == "AccID")
+                if (Convert.ToInt32(value) == AccID) return true;
+            if (varible == "DocID")
+                if (Convert.ToInt32(value) == DocID) return true;
+            return false;
         }
-
         public override string cmdAddDB()
         {
 
@@ -26,12 +25,10 @@ namespace ASUMED
 
             return base.cmdAddDB();
         }
-
         public override string cmdDellDB(string Value)
         {
             return ErrorExceptrionSTR;
         }
-
         public override string cmdDellDB(int Value)
         {
             string temp;

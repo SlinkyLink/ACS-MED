@@ -1,40 +1,35 @@
+using System;
+
 namespace ASUMED
 {
     public class DrugsDef : DBTable
     {
-        public int ID {get; private set;}
-        public string Name {get; private set;}
-        public int Amount {get; private set;}
-        public string Category {get; private set;}
-        public string Desc {get; private set;}
-
-        private DrugsDef() {}
-
-        public DrugsDef( int ID, 
-                         string Name, 
-                         int Amount, 
-                         string Category, 
-                         string Desc )
+        public int ID {get; set;}
+        public string Name {get; set;}
+        public int Amount {get; set;}
+        public string Category {get; set;}
+        public string Desc {get; set;}
+        public DrugsDef() {}
+        public override bool HaveData(string varible, object value)
         {
-            this.ID = ID;
-            this.Name = Name;
-            this.Amount = Amount;
-            this.Category = Category;
-            this.Desc = Desc;
+            if (varible == "ID")
+                if (Convert.ToInt32(value) == ID) return true;
+            if (varible == "Name")
+                if ((string)value == Name) return true;
+            if (varible == "Amount")
+                if (Convert.ToInt32(value) == Amount) return true;
+            if (varible == "Category")
+                if ((string)value == Category) return true;
+            if (varible == "Desc")
+                if ((string)value == Desc) return true;
+            return false;
         }
-
-        public override string GetDATA()
-        {
-            return @$"|->{ID}<-|->{Name}<-|->{Amount}<-|->{Category}<-|->{Desc}<-|";
-        }
-
         public override string cmdAddDB()
         {
             VARIBLE = $"({ID}, '{Name}', {Amount}, '{Category}', '{Desc}')";
 
             return base.cmdAddDB();
         }
-
         public override string cmdDellDB(string Value)
         {
             string temp;
@@ -45,7 +40,6 @@ namespace ASUMED
             VARIBLE = $"{temp} = '{Value}'";
             return base.cmdDellDB(Value);
         }
-
         public override string cmdDellDB(int Value)
         {
             string temp;

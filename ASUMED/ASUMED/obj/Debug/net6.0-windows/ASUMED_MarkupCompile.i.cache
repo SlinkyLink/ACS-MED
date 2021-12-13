@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 C:\Projects\ASUVS\ASUMED\ASUMED\App.xaml
-21733993673
+12201260205
 11252771958
-24578772027
+391859214078
 1991195963602
-ControlWindow.xaml;MainWindow.xaml;
+AboutPage.xaml;ConfigurationsPage.xaml;ControlWindow.xaml;Control\ClientExePage.xaml;Control\DBControl.xaml;Control\DoctorExePage.xaml;DoctorsPage.xaml;HelpsPage.xaml;MainWindow.xaml;PatientsPage.xaml;PillsPage.xaml;ProceduresPage.xaml;
 
-False
+True
 

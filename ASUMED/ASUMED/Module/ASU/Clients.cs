@@ -1,52 +1,42 @@
+using System;
+
 namespace ASUMED
 {
     public class Clients : DBTable
     {
-        public int ID {get; private set;}
-        public string Username {get; private set;}
-        public string DateStart {get; private set;}
-        public string DateEnd {get; private set;}
-        public string CreatedAt {get; private set;} //DATE
-
-        private Clients() {}
-
-        public Clients( int ID, 
-                        string Username, 
-                        string DateStart, 
-                        string DateEnd, 
-                        string CreatedAt)
+        public int ID {get; set;}
+        public string Username {get; set;}
+        public string NumberPhone { get; set;}
+        public string CreatedAt {get; set;} //DATE
+        public Clients() {}
+        public override bool HaveData(string varible, object value)
         {
-            this.ID = ID;
-            this.Username = Username;
-            this.DateStart = DateStart;
-            this.DateEnd = DateEnd;
-            this.CreatedAt = CreatedAt;
+            if (varible == "ID")
+                if (Convert.ToInt32(value) == ID) return true;
+            if (varible == "Username")
+                if ((string)value == Username) return true;
+            if (varible == "ID")
+                if ((string)value == NumberPhone) return true;
+            if (varible == "NumberPhone")
+                if ((string)value == CreatedAt) return true;
+            return false;
         }
-
-        public override string GetDATA()
-        {
-            return @$"|->{ID}<-|->{Username}<-|->{DateStart}<-|->{DateEnd}<-|->{CreatedAt}<-|";
-        }
-
         public override string cmdAddDB()
         {
-            VARIBLE = $"({ID}, '{Username}', {DateStart}, {DateEnd}, {CreatedAt})";
+            VARIBLE = $"({ID}, '{Username}', {NumberPhone}, {CreatedAt})";
 
             return base.cmdAddDB();
         }
-
         public override string cmdDellDB(string Value)
         {
             string temp;
             if(Username == Value) temp = "Username";
-            else if(DateStart == Value) temp = "DateStart";
-            else if(DateEnd == Value) temp = "DateEnd";
+            if (NumberPhone == Value) temp = "NumberPhone";
             else if(CreatedAt == Value) temp = "CreatedAt";
             else return ErrorExceptrionSTR;
             VARIBLE = $"{temp} = '{Value}'";
             return base.cmdDellDB(Value);
         }
-
         public override string cmdDellDB(int Value)
         {
             string temp;

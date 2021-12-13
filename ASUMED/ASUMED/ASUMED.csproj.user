@@ -7,15 +7,75 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="AboutPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ConfigurationsPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="ControlWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Control\ClientExePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Control\DBControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Control\DoctorExePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="DoctorsPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="HelpsPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="PatientsPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="PillsPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ProceduresPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="AboutPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ConfigurationsPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="ControlWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Control\ClientExePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Control\DBControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Control\DoctorExePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="DoctorsPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="HelpsPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="PatientsPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="PillsPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ProceduresPage.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

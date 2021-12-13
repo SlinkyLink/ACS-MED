@@ -4,85 +4,77 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ASUMED"
-        mc:Ignorable="d"
-        Title="ControlWindow" Height="768" Width="1024" WindowStyle="None" AllowsTransparency="True" Background="Transparent" WindowStartupLocation="CenterScreen" >
+        xmlns:en ="clr-namespace:ASUMED"
+        mc:Ignorable="d" 
+        Title="ControlWindow" 
+        WindowStyle="None"
+        MaxHeight = "{x:Static SystemParameters.MaximizedPrimaryScreenHeight}"
+        MaxWidth = "{x:Static SystemParameters.MaximizedPrimaryScreenWidth}"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize"
+        Background="Transparent">
     <Window.Resources>
         <Style TargetType="Border" x:Key="UpBorder">
-            <Setter Property="CornerRadius" Value="10"/>
-            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="CornerRadius" Value="4"/>
             <Setter Property="Background" Value="#FFC8F0FF"/>
-            <Setter Property="Margin" Value="5 5 2 3"/>
+            <Setter Property="Margin" Value="6 1 6 1"/>
+            <Setter Property="MinWidth" Value="120"/>
             <Setter Property="Cursor" Value="Hand"/>
         </Style>
-        <Style TargetType="Border" x:Key="LeftBorder">
-            <Setter Property= "Margin" Value="5"/>
-            <Setter Property= "Background" Value="Blue"/>
-            <Setter Property="MinHeight" Value="50"/>
-            <Setter Property="CornerRadius" Value="15"/>
-
-        </Style>
-        <Style TargetType="TextBox" x:Key="TexBoxRight">
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="MinHeight" Value="20"/>
-            <Setter Property="MinWidth" Value="350"/>
-            <Setter Property="Margin" Value="3"/>
-        </Style>
         <Style TargetType="Label" x:Key="UpLabel">
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontFamily" Value="Myriad Pro"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
         </Style>
-        <Style TargetType="Label" x:Key="LeftLabel">
-            <Setter Property="Content" Value="gfgfgf"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-        </Style>
-        <Style TargetType="Label" x:Key="LabelRight">
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontStyle" Value="Italic"/>
-            <Setter Property="Margin" Value="50 0 0 0"/>
+        <Style x:Key="RectBorderStyle" TargetType="Rectangle">
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Fill" Value="Transparent" />
+            <Setter Property="Tag" Value="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+            <EventSetter Event="MouseLeftButtonDown" Handler="Resize_Init"/>
+            <EventSetter Event="MouseLeftButtonUp" Handler="Resize_End"/>
+            <EventSetter Event="MouseMove" Handler="Resizeing_Form"/>
         </Style>
     </Window.Resources>
-
     <Border CornerRadius="15" Background="#FF29ABE2">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
+                <RowDefinition Height="28"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Grid x:Name="TitleBar" Background="Transparent" Grid.Row="0" VerticalAlignment="Top" MouseDown="TitleBar_MouseDown" >
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="90 0 0 0">
-                    <Border Style="{StaticResource UpBorder}">
+            <Grid Background="Transparent" Grid.Row="0" VerticalAlignment="Top" MouseDown="WindowMove" MouseMove="MouseNormalOutMax" MouseLeftButtonDown="WindowNormMaxDoubleCLick" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="75"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel x:Name="PagesB" Grid.Column="0"  Margin="90,0,0,0" Orientation="Horizontal" HorizontalAlignment="Left"  
+                            ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                    <Border Style="{StaticResource UpBorder}" Tag="{x:Static en:TPage.Doctors}" Cursor="Hand" MouseDown="ChangePage" >
                         <Label Style="{StaticResource UpLabel}" Content="Доктори"/>
                     </Border>
-                    <Border Style="{StaticResource UpBorder}">
+                    <Border Style="{StaticResource UpBorder}" Tag="{x:Static en:TPage.Patients}" Cursor="Hand" MouseDown="ChangePage">
                         <Label Style="{StaticResource UpLabel}" Content="Пацієнти"/>
                     </Border>
-                    <Border Style="{StaticResource UpBorder}">
-                        <Label Style="{StaticResource UpLabel}" Content="Процедури"/>
+                    <Border Style="{StaticResource UpBorder}" Tag="{x:Static en:TPage.Procedures}" Cursor="Hand" MouseDown="ChangePage">
+                        <Label Style="{StaticResource UpLabel}"  Content="Процедури" />
                     </Border>
-                    <Border Style="{StaticResource UpBorder}">
+                    <Border Style="{StaticResource UpBorder}"  Tag="{x:Static en:TPage.Pills}" Cursor="Hand" MouseDown="ChangePage">
                         <Label Style="{StaticResource UpLabel}" Content="Ліки"/>
                     </Border>
-                    <Border Style="{StaticResource UpBorder}">
+                    <Border Style="{StaticResource UpBorder}" Tag="{x:Static en:TPage.Help}" Cursor="Hand" MouseDown="ChangePage">
                         <Label Style="{StaticResource UpLabel}" Content="Допомога"/>
                     </Border>
-                    <Border Style="{StaticResource UpBorder}">
+                    <Border Style="{StaticResource UpBorder}" Tag="{x:Static en:TPage.Configuration}" Cursor="Hand" MouseDown="ChangePage">
                         <Label Style="{StaticResource UpLabel}" Content="Налаштування"/>
                     </Border>
-                    <Border Style="{StaticResource UpBorder}">
+                    <Border Style="{StaticResource UpBorder}" Tag="{x:Static en:TPage.About}" Cursor="Hand" MouseDown="ChangePage">
                         <Label Style="{StaticResource UpLabel}" Content="Про програму"/>
                     </Border>
-
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <Image Name="LineImg" Width="25" Margin="0 10 4 10" MouseDown="LineImg_MouseDown" VerticalAlignment="Bottom">
+                <StackPanel Grid.Column="1" Width="75" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Image Name="LineImg" Width="25" Margin="0 7 0 7" MouseDown="MinimizedWindow" VerticalAlignment="Bottom">
                         <Image.Style>
                             <Style TargetType="{x:Type Image}">
                                 <Setter Property="Source" Value="Sources\Line.png"/>
@@ -94,7 +86,7 @@
                             </Style>
                         </Image.Style>
                     </Image>
-                    <Image Name="SquareImg" Width="25" Margin="0 10 4 10" MouseDown="SquareImg_MouseDown" >
+                    <Image Name="SquareImg" Width="25" Margin="0 7 0 7" MouseDown="NormMaxWindow" >
                         <Image.Style>
                             <Style TargetType="{x:Type Image}">
                                 <Setter Property="Source" Value="Sources\Square.png"/>
@@ -106,7 +98,7 @@
                             </Style>
                         </Image.Style>
                     </Image>
-                    <Image Name="CrossImg" Width="25" Margin="0,10,15,10" MouseDown="CrossImg_MouseDown">
+                    <Image Name="CrossImg" Width="25" Margin="0,7,0,7" MouseDown="CloseWindow">
                         <Image.Style>
                             <Style TargetType="{x:Type Image}">
                                 <Setter Property="Source" Value="Sources\Cross.png"/>
@@ -120,50 +112,65 @@
                     </Image>
                 </StackPanel>
             </Grid>
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="7*"/>
-                </Grid.ColumnDefinitions>
-                <Border CornerRadius="15" Grid.Column="0" Background="#FFA0DFF8" Margin="0 0 1 0">
-                    <Ellipse  Width="65" Height="65" HorizontalAlignment="Left" Visibility="Visible"  VerticalAlignment="Top" Margin="10,-40,0,0" MouseDown="Ellipse_MouseDown">
-                        <Ellipse.Fill>
-                            <ImageBrush Stretch="Uniform"
-  
+            <Grid Grid.Row="1" >
+                <Frame x:Name="WindowContent" NavigationUIVisibility="Hidden" Margin="10"/>
+            </Grid>
+            <Ellipse  Grid.Row="1" x:Name="ElipseImage"  Height="35" Width="35" HorizontalAlignment="Left" Visibility="Visible"  VerticalAlignment="Top" Margin="10,-27,0,0" MouseDown="WindowMove">
+                <Ellipse.Fill>
+                    <ImageBrush Stretch="Uniform"
                             ImageSource="Sources/MedBlue.png">
-                            </ImageBrush>
-                        </Ellipse.Fill>
-                    </Ellipse>
-                </Border>
-                <Grid Grid.Column="0" Margin="0 30 0 0">
-                    <StackPanel x:Name="ListDoctorsPanel" Orientation="Vertical" >
-                        
-                    </StackPanel>
-                </Grid>
-                <Border CornerRadius="15" Grid.Column="1" Background="#FFA0DFF8" Margin="1 0 0 0">
-                    <Grid Grid.Column="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="4*"/>
-                            <RowDefinition Height="6*"/>
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="4*"/>
-                                <ColumnDefinition Width="9*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Style="{StaticResource LabelRight}" Grid.Row="0" Grid.Column="0" Content="ФИО" VerticalContentAlignment="Bottom" />
-                            <Label Style="{StaticResource LabelRight}" Grid.Row="1" Grid.Column="0" Content="Дата Реєстрації" VerticalContentAlignment="Top" />
-                            <TextBox x:Name="FSTexBox" Style="{StaticResource TexBoxRight}" Grid.Row="0" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-                            <TextBox x:Name="DRTexBox" Style="{StaticResource TexBoxRight}" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                        </Grid>
-                        <TextBox Grid.Row="1" Margin="10, 0, 10, 25"/>
-                        
-                    </Grid>
-                </Border>
+                    </ImageBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+            <Grid Grid.Row="0" Grid.RowSpan="2">
+                <Rectangle x:Name="leftSizeGrip"
+                    Width="7"
+                    HorizontalAlignment="Left"
+                    Cursor="SizeWE"
+                    Style="{StaticResource RectBorderStyle}" />
+                <Rectangle x:Name="rightSizeGrip"
+                    Width="7"
+                    HorizontalAlignment="Right"
+                    Cursor="SizeWE"
+                    Style="{StaticResource RectBorderStyle}" />
+                <Rectangle x:Name="topSizeGrip"
+                    Height="7"
+                    VerticalAlignment="Top"
+                    Cursor="SizeNS"
+                    Style="{StaticResource RectBorderStyle}" />
+                <Rectangle x:Name="bottomSizeGrip"
+                    Height="7"
+                    VerticalAlignment="Bottom"
+                    Cursor="SizeNS"
+                    Style="{StaticResource RectBorderStyle}" />
+                <Rectangle Name="topLeftSizeGrip"
+                    Width="7"
+                    Height="7"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Cursor="SizeNWSE"
+                    Style="{StaticResource RectBorderStyle}" />
+                <Rectangle Name="bottomRightSizeGrip"
+                    Width="7"
+                    Height="7"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Cursor="SizeNWSE"
+                    Style="{StaticResource RectBorderStyle}" />
+                <Rectangle Name="topRightSizeGrip"
+                    Width="7"
+                    Height="7"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Cursor="SizeNESW"
+                    Style="{StaticResource RectBorderStyle}" />
+                <Rectangle Name="bottomLeftSizeGrip"
+                    Width="7"
+                    Height="7"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Cursor="SizeNESW"
+                    Style="{StaticResource RectBorderStyle}" />
             </Grid>
         </Grid>
     </Border>
