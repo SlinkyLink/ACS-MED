@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ASUMED.Control"
       mc:Ignorable="d" 
+      Width="350" Height="400"
       Title="ClientExePage" Loaded="PageLoaded">
     <Page.Resources>
         <Style TargetType="Label" x:Key="VaribleLabel">
@@ -43,6 +44,23 @@
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Margin" Value="5"/>
         </Style>
+        <Style TargetType="Border" x:Key="ContexBorder">
+            <Setter Property="CornerRadius" Value="7"/>
+            <Setter Property="Background" Value="#FFB9EAFF"/>
+        </Style>
+        <Style TargetType="ScrollViewer" x:Key="ContextScroll">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="350"/>
+            <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+        </Style>
+        <Style TargetType="Label" x:Key="ContextLabel">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -50,22 +68,76 @@
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5*"/>
-                <ColumnDefinition Width="7*"/>
-            </Grid.ColumnDefinitions>
-            <StackPanel x:Name="LabelVaribles" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center">
-                <Label Style="{StaticResource VaribleLabel}" Content="ПІБ"/>
-                <Label Style="{StaticResource VaribleLabel}" Content="Номер телефону"/>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                <StackPanel x:Name="LabelVaribles" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center">
+                    <Label Style="{StaticResource VaribleLabel}" Content="ПІБ"/>
+                    <Label Style="{StaticResource VaribleLabel}" Content="Вага"/>
+                    <Label Style="{StaticResource VaribleLabel}" Content="Зріст"/>
+                    <Label Style="{StaticResource VaribleLabel}" Content="Номер телефону"/>
+                    <StackPanel x:Name="AddLabelVaribles" Orientation="Vertical" >
+                        <Label Style="{StaticResource VaribleLabel}" Content="Стать"/>
+                        <Label Style="{StaticResource VaribleLabel}" Content="Дата народження"/>
+                        <Label Style="{StaticResource VaribleLabel}" Content="Група крові"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel x:Name="TextBoxValues" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center">
+                    <Border Style="{StaticResource ValueBorder}">
+                        <TextBox Style="{StaticResource ValueTextBox}" x:Name="TextBoxFLName" PreviewTextInput="DBControl_StrTextPreview"/>
+                    </Border>
+                    <Border Style="{StaticResource ValueBorder}">
+                        <TextBox Style="{StaticResource ValueTextBox}" x:Name="TextBoxWeightValue" PreviewTextInput="DBControl_FloatTextPreview"/>
+                    </Border>
+                    <Border Style="{StaticResource ValueBorder}">
+                        <TextBox Style="{StaticResource ValueTextBox}" x:Name="TextBoxGrowthValue" PreviewTextInput="DBControl_IntTextPreview"/>
+                    </Border>
+                    <Border Style="{StaticResource ValueBorder}">
+                        <TextBox Style="{StaticResource ValueTextBox}" x:Name="TextBoxNumberValue" PreviewTextInput="DBControl_IntTextPreview"/>
+                    </Border>
+                    <StackPanel x:Name="AddTexBoxValues" Orientation="Vertical" >
+                        <Border Style="{StaticResource ValueBorder}" Name="BorderSex" MouseDown="SexMouseDown">
+                            <TextBox Style="{StaticResource ValueTextBox}" x:Name="TextBoxSexValue" IsReadOnly="True" Focusable="False" Cursor="Arrow"/>
+                        </Border>
+                        <Border Style="{StaticResource ValueBorder}">
+                            <TextBox Style="{StaticResource ValueTextBox}" x:Name="TextBoxDateBirthValue"/>
+                        </Border>
+                        <Border Style="{StaticResource ValueBorder}" MouseDown="RhFactorMouseDown">
+                            <TextBox Style="{StaticResource ValueTextBox}" x:Name="TextBoxRhFactorValue" IsReadOnly="True" Focusable="False" Cursor="Arrow"/>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
             </StackPanel>
-            <StackPanel x:Name="TextBoxValues" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center">
-                <Border Style="{StaticResource ValueBorder}">
-                    <TextBox Style="{StaticResource ValueTextBox}" PreviewTextInput="DBControl_StrTextPreview"/>
+            <Grid x:Name="ContexSex" Height="100" Width="{Binding Path=ActualWidth, ElementName=BorderSex}" Margin="140.5 190 0 0" Visibility="Hidden">
+                <Border Style="{StaticResource ContexBorder}" BorderThickness="1" BorderBrush="Blue">
+                    <Border.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF2AABE2"/>
+                            <GradientStop Color="#FF84DBFF" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Grid>
+                        <StackPanel Orientation="Vertical" x:Name="StackPanelSexValues">
+
+                        </StackPanel>
+                    </Grid>
                 </Border>
-                <Border Style="{StaticResource ValueBorder}">
-                    <TextBox Style="{StaticResource ValueTextBox}" PreviewTextInput="DBControl_IntTextPreview"/>
+            </Grid>
+            <Grid x:Name="ContexRhFactor" Height="150" Width="{Binding Path=ActualWidth, ElementName=BorderSex}" Margin="140.5 0 0 0" Visibility="Hidden">
+                <Border Style="{StaticResource ContexBorder}" BorderThickness="1" BorderBrush="Blue">
+                    <Border.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF2AABE2"/>
+                            <GradientStop Color="#FF84DBFF" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Grid>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel Orientation="Vertical" x:Name="StackPanelRhFactorValues">
+
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
                 </Border>
-            </StackPanel>
+            </Grid>
         </Grid>
         <StackPanel Grid.Row="1" Grid.RowSpan="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
             <Border x:Name="BorderExe" Style="{StaticResource BtnC}" MouseDown="ExecuteBtn">

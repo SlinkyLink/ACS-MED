@@ -24,17 +24,17 @@
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
         <Style TargetType="Label" x:Key="LabelRight">
-            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontSize" Value="15"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="HorizontalAlignment" Value="Right"/>
         </Style>
         <Style TargetType="TextBox" x:Key="TexBoxRight">
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="MinHeight" Value="20"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="MinHeight" Value="15"/>
             <Setter Property="Margin" Value="0 4 0 4"/>
             <Setter Property="IsReadOnly" Value="True"/>
-            <Setter Property="MinWidth" Value="300"/>
+            <Setter Property="MinWidth" Value="200"/>
         </Style>
         <Style TargetType="Ellipse" x:Key="ControlElipse">
             <Setter Property="Height" Value="35"/>
@@ -57,11 +57,11 @@
                         <Border  BorderBrush="#FF85BCD2" CornerRadius="5" BorderThickness="2" Background="Blue" SnapsToDevicePixels="True">
                             <StackPanel Orientation="Vertical">
                                 <Border Tag="DeleteB" MinWidth="150" BorderThickness="0" Background="Transparent" BorderBrush="#FF85BCD2" MouseDown="DeleteItem">
-                                    <Label Style="{StaticResource LeftLabel}" Content="Delete" HorizontalAlignment="Center"/>
+                                    <Label Style="{StaticResource LeftLabel}" Content="Видалити" HorizontalAlignment="Center"/>
                                 </Border>
                                 <Border  BorderBrush="#FF85BCD2" Background="Transparent" BorderThickness="1"/>
                                 <Border Tag="UpdateB" MinWidth="150" BorderThickness="0" BorderBrush="#FF85BCD2"  Background="Transparent" MouseDown="UpdateItem">
-                                    <Label Style="{StaticResource LeftLabel}" Content="Update" HorizontalAlignment="Center"/>
+                                    <Label Style="{StaticResource LeftLabel}" Content="Оновити" HorizontalAlignment="Center"/>
                                 </Border>
                             </StackPanel>
                         </Border>
@@ -76,7 +76,7 @@
                         <Border  BorderBrush="#FF85BCD2" CornerRadius="5" BorderThickness="2" Background="Blue" SnapsToDevicePixels="True">
                             <StackPanel Orientation="Vertical">
                                 <Border Tag="UpdateB" MinWidth="150" BorderThickness="0" BorderBrush="#FF85BCD2" Background="Transparent" MouseDown="UpdateItem">
-                                    <Label Style="{StaticResource LeftLabel}" Content="Update" HorizontalAlignment="Center"/>
+                                    <Label Style="{StaticResource LeftLabel}" Content="Оновити" HorizontalAlignment="Center"/>
                                 </Border>
                             </StackPanel>
                         </Border>
@@ -155,33 +155,46 @@
                             </ScrollViewer>
                         </Grid>
                         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Grid.Column="1">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <StackPanel Grid.Row="1" Grid.Column="0" x:Name="LablesVaribles" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                    <Label Style="{StaticResource LabelRight}">ПІБ</Label>
-                                    <Label Style="{StaticResource LabelRight}">Стать</Label>
-                                    <Label Style="{StaticResource LabelRight}">Дата народження</Label>
-                                    <Label Style="{StaticResource LabelRight}">Група крові</Label>
-                                    <Label Style="{StaticResource LabelRight}">Зріст</Label>
-                                    <Label Style="{StaticResource LabelRight}">Вага</Label>
-                                    <Label Style="{StaticResource LabelRight}">Стан лікування</Label>
-                                    <Label Style="{StaticResource LabelRight}">Лікар</Label>
-                                </StackPanel>
-                                <StackPanel Grid.Row="1" Grid.Column="1" x:Name="TextBoxValues" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                    <TextBox x:Name="TextBoxFLNameValue" Style="{StaticResource TexBoxRight}" />
-                                    <TextBox x:Name="TextBoxSexValue" Style="{StaticResource TexBoxRight}" />
-                                    <TextBox x:Name="TextBoxDayOfBirthValue" Style="{StaticResource TexBoxRight}" />
-                                    <TextBox x:Name="TextBoxRhesusFactorValue" Style="{StaticResource TexBoxRight}" />
-                                    <TextBox x:Name="TextBoxGrowthValue" Style="{StaticResource TexBoxRight}" />
-                                    <TextBox x:Name="TextBoxWeightValue" Style="{StaticResource TexBoxRight}" />
-                                    <TextBox x:Name="TextBoxStateOfTherapyValue" Style="{StaticResource TexBoxRight}" />
-                                    <TextBox x:Name="TextBoxCreatedByValue" Style="{StaticResource TexBoxRight}" />
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                        <Label Style="{StaticResource LabelRight}">ПІБ</Label>
+                                        <Label Style="{StaticResource LabelRight}">Стать</Label>
+                                        <Label Style="{StaticResource LabelRight}">Дата народження</Label>
+                                        <Label Style="{StaticResource LabelRight}">Група крові</Label>
+                                        <Label Style="{StaticResource LabelRight}">Номер телефону</Label>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                        <TextBox x:Name="TextBoxFLNameValue" Style="{StaticResource TexBoxRight}" />
+                                        <TextBox x:Name="TextBoxSexValue" Style="{StaticResource TexBoxRight}" />
+                                        <TextBox x:Name="TextBoxDayOfBirthValue" Style="{StaticResource TexBoxRight}" />
+                                        <TextBox x:Name="TextBoxRhesusFactorValue" Style="{StaticResource TexBoxRight}" />
+                                        <TextBox x:Name="TextBoxNumberPhoneValue" Style="{StaticResource TexBoxRight}" />
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                        <Label Style="{StaticResource LabelRight}">Зріст</Label>
+                                        <Label Style="{StaticResource LabelRight}">Вага</Label>
+                                        <Label Style="{StaticResource LabelRight}">Стан лікування</Label>
+                                        <Label Style="{StaticResource LabelRight}">Лікар</Label>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                        <TextBox x:Name="TextBoxGrowthValue" Style="{StaticResource TexBoxRight}" />
+                                        <TextBox x:Name="TextBoxWeightValue" Style="{StaticResource TexBoxRight}" />
+                                        <TextBox x:Name="TextBoxStateOfTherapyValue" Style="{StaticResource TexBoxRight}" />
+                                        <TextBox x:Name="TextBoxCreatedByValue" Style="{StaticResource TexBoxRight}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </StackPanel>
                         </ScrollViewer>
                     </Grid>
                     <Grid Grid.Row="2" Grid.Column="1">
-                        <TextBox  x:Name="TextBoxSickBook" IsReadOnly="True"/>
+                        <TextBox x:Name="TextBoxSickBook" IsReadOnly="True" AcceptsReturn="True"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                ScrollViewer.CanContentScroll="True" PreviewTextInput="StrTextPreview"/>
                     </Grid>
+                    <Border x:Name="BorderBtnMedHist"  Grid.Row="3" Grid.Column="1" Background="Blue" MinWidth="100" MinHeight="30" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="10" MouseDown="BtnMedHist">
+                        <Label Focusable="False" FontSize="14" Content="Exemple" FontFamily="Myriad Pro" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
+                    </Border>
                 </Grid>
             </Border>
         </Grid>

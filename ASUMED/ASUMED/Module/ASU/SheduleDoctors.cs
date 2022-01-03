@@ -23,10 +23,6 @@ namespace ASUMED
             VARIBLE = $"({DocID}, {TimeID}, {DayID})";
             return base.cmdAddDB();
         }
-        public override string cmdUpdateDB(string varibleUpdate, string valueUpdate, string varible, string Value)
-        {
-            return base.cmdUpdateDB(varibleUpdate, valueUpdate, varible, Value);
-        }
         public override string cmdDellDB(string Value)
         {
             return ErrorExceptrionSTR;

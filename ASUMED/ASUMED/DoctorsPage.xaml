@@ -56,11 +56,11 @@
                         <Border  BorderBrush="#FF85BCD2" CornerRadius="5" BorderThickness="2" Background="Blue" SnapsToDevicePixels="True">
                             <StackPanel Orientation="Vertical">
                                 <Border Tag="DeleteB" MinWidth="150" BorderThickness="0" Background="Transparent" BorderBrush="#FF85BCD2" MouseDown="DeleteItem">
-                                    <Label Style="{StaticResource LeftLabel}" Content="Delete" HorizontalAlignment="Center"/>
+                                    <Label Style="{StaticResource LeftLabel}" Content="Видалити" HorizontalAlignment="Center"/>
                                 </Border>
                                 <Border  BorderBrush="#FF85BCD2" BorderThickness="1"/>
                                 <Border Tag="UpdateB" MinWidth="150" BorderThickness="0" Background="Transparent" BorderBrush="#FF85BCD2" MouseDown="UpdateItem">
-                                    <Label Style="{StaticResource LeftLabel}" Content="Update" HorizontalAlignment="Center"/>
+                                    <Label Style="{StaticResource LeftLabel}" Content="Оновити" HorizontalAlignment="Center"/>
                                 </Border>
                             </StackPanel>
                         </Border>
@@ -75,7 +75,7 @@
                         <Border  BorderBrush="#FF85BCD2" CornerRadius="5" BorderThickness="2" Background="Blue" SnapsToDevicePixels="True">
                             <StackPanel Orientation="Vertical">
                                 <Border Tag="UpdateB" MinWidth="150" BorderThickness="0" BorderBrush="#FF85BCD2" Background="Transparent" MouseDown="UpdateItem">
-                                    <Label Style="{StaticResource LeftLabel}" Content="Update" HorizontalAlignment="Center"/>
+                                    <Label Style="{StaticResource LeftLabel}" Content="Оновити" HorizontalAlignment="Center"/>
                                 </Border>
                             </StackPanel>
                         </Border>
@@ -209,6 +209,7 @@
                                 </ScrollViewer>
                             </Border>
                         </Grid>
+                        
                     </Grid>
                 </Grid>
             </Border>

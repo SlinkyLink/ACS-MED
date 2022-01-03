@@ -106,8 +106,26 @@ namespace ASUMED
                     };
                     break;
                 case TPage.Procedures:
+                    WindowContent.Content = new ProceduresPage()
+                    {
+                        scrollH = scrollH,
+                        scrollW = scrollW,
+                        MaxHeight = Height - offsizeH,
+                        MaxWidth = Width - offsizeW,
+                        ControllerDB = this.ControllerDB,
+                        ERank = this.ERank
+                    };
                     break;
                 case TPage.Pills:
+                    WindowContent.Content = new PillsPage()
+                    {
+                        scrollH = scrollH,
+                        scrollW = scrollW,
+                        MaxHeight = Height - offsizeH,
+                        MaxWidth = Width - offsizeW,
+                        ControllerDB = this.ControllerDB,
+                        ERank = this.ERank
+                    };
                     break;
                 case TPage.Help:
                     break;
@@ -247,9 +265,11 @@ namespace ASUMED
                     if (Height > 110f)
                         patientsPage.ScrollViewerList.MaxHeight = Height - 110f;
                 }
-                if (WindowContent.Content is AboutPage)
+                if (WindowContent.Content is ProceduresPage)
                 {
-                    var aboutPage = (AboutPage)WindowContent.Content;
+                    var patientsPage = (ProceduresPage)WindowContent.Content;
+                    if (Height > 110f)
+                        patientsPage.ScrollViewerList.MaxHeight = Height - 110f;
                 }
             }
         }

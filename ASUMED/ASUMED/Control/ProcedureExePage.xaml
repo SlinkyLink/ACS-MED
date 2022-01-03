@@ -1,0 +1,144 @@
+﻿<Page x:Class="ASUMED.Control.ProcedureExePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ASUMED.Control"
+      mc:Ignorable="d" 
+      Width="350" Height="400"
+      Title="ProcedureExePage"
+      Loaded="Page_Loaded">
+    <Page.Resources>
+        <Style TargetType="Label" x:Key="VaribleLabel">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+        <Style TargetType="Border" x:Key="ValueBorder">
+            <Setter Property="Background" Value="#FFB9EAFF"/>
+            <Setter Property="CornerRadius" Value="7"/>
+            <Setter Property="Margin" Value="0 5 0 5"/>
+            <Setter Property="MinHeight" Value="20"/>
+            <Setter Property="MaxHeight" Value="20"/>
+            <Setter Property="MinWidth" Value="175"/>
+        </Style>
+        <Style TargetType="TextBox" x:Key="ValueTextBox">
+            <Setter Property="Width" Value="175"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Myriad Pro"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="Border" x:Key="BtnC">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Background" Value="#FFB9EAFF"/>
+            <Setter Property="MaxHeight" Value="30"/>
+            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style TargetType="Border" x:Key="ContexBorder">
+            <Setter Property="CornerRadius" Value="7"/>
+            <Setter Property="Background" Value="#FFB9EAFF"/>
+        </Style>
+        <Style TargetType="Label" x:Key="ContextLabel">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" >
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel x:Name="VaribalesStackPanel" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center">
+                        <Label Style="{StaticResource VaribleLabel}" Content="Процедура"/>
+                        <Label Style="{StaticResource VaribleLabel}" Content="Пацієнт"/>
+                        <Label Style="{StaticResource VaribleLabel}" Content="Лікар"/>
+                        <Label Style="{StaticResource VaribleLabel}" Content="Час"/>
+                    </StackPanel>
+                    <StackPanel x:Name="ValuesStackPanel" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center">
+                        <Border Name="bord"  Tag="Procedure" Style="{StaticResource ValueBorder}" MouseDown="CallContext">
+                            <TextBox x:Name="TextBoxProcedureValue" Style="{StaticResource ValueTextBox}" IsReadOnly="True" Cursor="Hand" Focusable="False"/>
+                        </Border>
+                        <Border Tag="Patient" Style="{StaticResource ValueBorder}" MouseDown="CallContext">
+                            <TextBox x:Name="TextBoxPatientValue"  Style="{StaticResource ValueTextBox}" IsReadOnly="True" Cursor="Hand" Focusable="False"/>
+                        </Border>
+                        <Border Tag="Doctor" Style="{StaticResource ValueBorder}" MouseDown="CallContext">
+                            <TextBox x:Name="TextBoxDoctorValue" Style="{StaticResource ValueTextBox}" IsReadOnly="True" Cursor="Hand" Focusable="False"/>
+                        </Border>
+                        <Border Style="{StaticResource ValueBorder}">
+                            <TextBox x:Name="TextBoxTimeValue" Style="{StaticResource ValueTextBox}"/>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+            <Grid x:Name="ContextProcedure" Height="150" Width="{Binding Path=ActualWidth, ElementName=bord}" Margin="92 90 0 0" Visibility="Hidden">
+                <Border Style="{StaticResource ContexBorder}" BorderThickness="2" BorderBrush="Blue">
+                    <Border.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF2AABE2"/>
+                            <GradientStop Color="#FF84DBFF" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel Orientation="Vertical" x:Name="StackPanelProcedureValue">
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+            <Grid x:Name="ContextPatient" Height="150" Width="{Binding Path=ActualWidth, ElementName=bord}" Margin="92 150 0 0" Visibility="Hidden">
+                <Border Style="{StaticResource ContexBorder}" BorderThickness="2" BorderBrush="Blue">
+                    <Border.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF2AABE2"/>
+                            <GradientStop Color="#FF84DBFF" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel Orientation="Vertical" x:Name="StackPanelPatientValue">
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+            <Grid x:Name="ContextDoctor" Height="150" Width="{Binding ActualWidth, ElementName=bord}" Margin="90,-150,0,0" Visibility="Hidden">
+                <Border Style="{StaticResource ContexBorder}" BorderThickness="2" BorderBrush="Blue">
+                    <Border.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF2AABE2"/>
+                            <GradientStop Color="#FF84DBFF" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel Orientation="Vertical" x:Name="StackPanelDoctorValues">
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+        </Grid>
+        <StackPanel Grid.Row="1" Grid.RowSpan="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
+            <Border x:Name="ExeBorder" Style="{StaticResource BtnC}" MouseDown="ExecuteBtn">
+                <Label HorizontalAlignment="Center" FontSize="15" Foreground="#FF93DBF7" />
+            </Border>
+            <Border Style="{StaticResource BtnC}" MouseDown="CloseWin">
+                <Label HorizontalAlignment="Center" FontSize="15" Foreground="#FF93DBF7">
+                    Відмова
+                </Label>
+            </Border>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -63,3 +63,5 @@ C:\Projects\ASUVS\ASUMED\ASUMED\obj\Debug\net6.0-windows\Control\DoctorExePage.b
 C:\Projects\ASUVS\ASUMED\ASUMED\obj\Debug\net6.0-windows\ASUMED.csproj.AssemblyReference.cache
 C:\Projects\ASUVS\ASUMED\ASUMED\obj\Debug\net6.0-windows\Control\ClientExePage.g.cs
 C:\Projects\ASUVS\ASUMED\ASUMED\obj\Debug\net6.0-windows\Control\ClientExePage.baml
+C:\Projects\ASUVS\ASUMED\ASUMED\obj\Debug\net6.0-windows\Control\ProcedureExePage.g.cs
+C:\Projects\ASUVS\ASUMED\ASUMED\obj\Debug\net6.0-windows\Control\ProcedureExePage.baml

@@ -10,7 +10,8 @@ namespace ASUMED
         public string DateOfBirth {get; set;}
         public int IDPassport { get; set; }
         public string CreatedAt {get; set;}
-        public string CreatedBy { get; set; }
+        public int CreatedBy { get; set; }
+        public int IDSpec { get; set; }
         public Doctors() {}
         public override bool HaveData(string varible, object value)
         {
@@ -27,17 +28,15 @@ namespace ASUMED
             if (varible == "CreatedAt")
                 if ((string)value == CreatedAt) return true;
             if (varible == "CreatedBy")
-                if ((string)value == CreatedBy) return true;
+                if (Convert.ToInt32(value) == CreatedBy) return true;
+            if (varible == "IDSpec")
+                if (Convert.ToInt32(value) == IDSpec) return true;
             return false;
         }
         public override string cmdAddDB()
         {
-            VARIBLE = $"({ID}, '{Username}', '{Sex}', '{DateOfBirth}', {IDPassport}, {CreatedAt}, '{CreatedBy}')";
+            VARIBLE = $"({ID}, '{Username}', '{Sex}', '{DateOfBirth}', {IDPassport}, {CreatedAt}, {CreatedBy}, {IDSpec})";
             return base.cmdAddDB();
-        }
-        public override string cmdUpdateDB(string varibleUpdate, string valueUpdate, string varible, string Value)
-        {
-            return base.cmdUpdateDB(varibleUpdate, valueUpdate, varible, Value);
         }
         public override string cmdDellDB(string Value)
         {
@@ -46,7 +45,6 @@ namespace ASUMED
             else if (Sex == Value) temp = "Sex";
             else if (DateOfBirth == Value) temp = "DateOfBirth";
             else if(CreatedAt == Value) temp = "CreatedAt";
-            else if(CreatedBy == Value) temp = "CreatedBy";
             else return ErrorExceptrionSTR;
             VARIBLE = $"{temp} = '{Value}'";
             return base.cmdDellDB(Value);
@@ -56,6 +54,8 @@ namespace ASUMED
             string temp;
             if(Value == ID) temp = "ID";
             else if (Value == IDPassport) temp = "IDPassport";
+            else if (CreatedBy == Value) temp = "CreatedBy";
+            else if (IDSpec == Value) temp = "IDSpec";
             else return ErrorExceptrionSTR;
             VARIBLE = $"{temp} = {Value}";
             return base.cmdDellDB(Value);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,6 +40,7 @@ namespace ASUMED.Control
                 default:
                     break;
             }
+            _DrawContext();
         }
         private void CloseWin(object sender, MouseButtonEventArgs e)
         {
@@ -68,13 +70,44 @@ namespace ASUMED.Control
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
+        private void DBControl_FloatTextPreview(object sender, TextCompositionEventArgs e)
+        {
+
+            Regex regex = new Regex(@"^[0-9]*(?:\.[0-9]*)?$");
+            e.Handled = !regex.IsMatch(e.Text);
+            
+            if ((sender as TextBox).Text.Split('.').Length - 1 == 1 && e.Text == ".")
+            {
+                e.Handled = !e.Handled;
+            }
+        }
         private void ExecuteBtn(object sender, MouseButtonEventArgs e)
         {
             for (int i = TextBoxValues.Children.Count - 1; i >= 0; i--)
             {
-                if (((TextBoxValues.Children[i] as Border).Child as TextBox).Text == "")
+                if(TextBoxValues.Children[i] is Border)
                 {
-                    return;
+                    if (((TextBoxValues.Children[i] as Border).Child as TextBox).Text == "")
+                    {
+                        return;
+                    }
+                }
+                if(EMode == EMode.Add)
+                {
+                    if(TextBoxValues.Children[i] is StackPanel)
+                    {
+                        var addStack = TextBoxValues.Children[i] as StackPanel;
+                        for(int j = addStack.Children.Count - 1; j >= 0; j--)
+                        {
+                            if (TextBoxValues.Children[j] is Border)
+                            {
+                                if (((TextBoxValues.Children[j] as Border).Child as TextBox).Text == "")
+                                {
+                                    return;
+                                }
+                            }
+                        }
+                    }
                 }
             }
             switch (EMode)
@@ -91,44 +124,101 @@ namespace ASUMED.Control
         }
         private void _Add()
         {
-            int userID = ControllerDB.GenerateID("Clients");
-            string numberPhone = ((TextBoxValues.Children[1] as Border).Child as TextBox).Text;
-            int docId = ControllerDB.LogDoctor.ID;
-            string username = ((TextBoxValues.Children[0] as Border).Child as TextBox).Text; 
+            string flName = TextBoxFLName.Text;
+            string weight = TextBoxWeightValue.Text;
+            int growth = Convert.ToInt32(TextBoxGrowthValue.Text);
+            string numberPhone = TextBoxNumberValue.Text;
+            string sex = TextBoxSexValue.Text;
+            string dateBirth = TextBoxDateBirthValue.Text;
+            string rhFactor = TextBoxRhFactorValue.Text;
+
+            int idClient = ControllerDB.GenerateID("Clients");
+            int idFactor = ControllerDB.GetIdRhFactor(rhFactor);
+            int idDoc = ControllerDB.LogDoctor.ID;
             string createdAt = ASUDBController.TIME;
+
             ControllerDB.AddData(new Clients
             {
-                ID = userID,
-                Username = username,
+                ID = idClient,
+                Username = flName,
+                Sex = sex,
+                DateOfBirth = dateBirth,
+                IDRhFactor = idFactor,
+                Weight = weight,
+                Growth = growth,
                 NumberPhone = numberPhone,
-                CreatedAt = createdAt
-            });
-            ControllerDB.AddData(new UseDocsCl
+                CreatedAt = createdAt,
+                DocID = idDoc,
+                MedStory = ""
+            }); 
+
+
+            for (int i = TextBoxValues.Children.Count - 1; i >= 0; i--)
             {
-                DocID = docId,
-                ClientID = userID
-            });
-            foreach (Border bor in TextBoxValues.Children)
-            {
-                (bor.Child as TextBox).Text = "";
+                if (TextBoxValues.Children[i] is Border)
+                {
+                    ((TextBoxValues.Children[i] as Border).Child as TextBox).Text = "";
+                }
+                if (EMode == EMode.Add)
+                {
+                    if (TextBoxValues.Children[i] is StackPanel)
+                    {
+                        var addStack = TextBoxValues.Children[i] as StackPanel;
+                        for (int j = addStack.Children.Count - 1; j >= 0; j--)
+                        {
+                            if (addStack.Children[j] is Border)
+                            {
+                                ((addStack.Children[j] as Border).Child as TextBox).Text = "";
+                            }
+                        }
+                    }
+                }
             }
             foreach (Window window in Application.Current.Windows)
             {
                 if (window is ControlWindow)
                 {
                     var controlWindow = (ControlWindow)window;
-                    (controlWindow.WindowContent.Content as PatientsPage).UpdateData(null, null);
+                    (controlWindow.WindowContent.Content as PatientsPage).UpdateData();
                     return;
                 }
             }
 
         }
+        private void SexMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (ContexRhFactor.Visibility == Visibility.Visible) ContexRhFactor.Visibility = Visibility.Hidden;
+
+            if (ContexSex.Visibility == Visibility.Visible) ContexSex.Visibility = Visibility.Hidden;
+            else ContexSex.Visibility = Visibility.Visible;
+
+        }
+        private void RhFactorMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (ContexSex.Visibility == Visibility.Visible) ContexSex.Visibility = Visibility.Hidden;
+
+            if (ContexRhFactor.Visibility == Visibility.Visible) ContexRhFactor.Visibility = Visibility.Hidden;
+            else ContexRhFactor.Visibility = Visibility.Visible;
+        }
+        private void SelectSex(object sender, MouseButtonEventArgs e)
+        {
+            TextBoxSexValue.Text = (sender as Border).Tag.ToString();
+            ContexSex.Visibility = Visibility.Hidden;
+        }
+        private void SelectRhFactor(object sender, MouseButtonEventArgs e)
+        {
+            TextBoxRhFactorValue.Text = ((sender as Border).Tag as RhFactor).Name;
+            ContexRhFactor.Visibility = Visibility.Hidden;
+        }
         private void _Update()
         {
             bool isChange = false;
             var client = ControllerDB.activeTable as Clients;
-            string username = ((TextBoxValues.Children[0] as Border).Child as TextBox).Text;
-            string numberPhone = ((TextBoxValues.Children[1] as Border).Child as TextBox).Text;
+
+            string username = TextBoxFLName.Text;
+            string numberPhone = TextBoxNumberValue.Text;
+            string weight = TextBoxWeightValue.Text;
+            int growth =  Convert.ToInt32(TextBoxGrowthValue.Text);
 
             if (username != client.Username)
             {
@@ -140,22 +230,108 @@ namespace ASUMED.Control
                 ControllerDB.UpdateData(client, "NumberPhone", $"'{numberPhone}'", "ID", client.ID.ToString());
                 isChange = true;
             }
+            if (weight != client.Weight)
+            {
+                ControllerDB.UpdateData(client, "Weight", weight, "ID", client.ID.ToString());
+                isChange = true;
+            }
+            if (growth != client.Growth)
+            {
+                ControllerDB.UpdateData(client, "Growth", growth, "ID", client.ID.ToString());
+                isChange = true;
+            }
             if (isChange) MessageBox.Show("Дані було змінено");
             foreach (Window window in Application.Current.Windows)
             {
                 if (window is ControlWindow)
                 {
                     var controlWindow = (ControlWindow)window;
-                    (controlWindow.WindowContent.Content as DoctorsPage).UpdateData();
+                    (controlWindow.WindowContent.Content as PatientsPage).UpdateData();
                     return;
                 }
             }
         }
         private void _FillTextBox()
         {
-            Clients client = (ControllerDB.activeTable as Clients);
-            ((TextBoxValues.Children[0] as Border).Child as TextBox).Text = client.Username;
-            ((TextBoxValues.Children[1] as Border).Child as TextBox).Text = client.NumberPhone.ToString();
+            var client = ControllerDB.activeTable as Clients;
+            for(int i = AddLabelVaribles.Children.Count - 1; i >= 0; i--)
+            {
+                AddLabelVaribles.Children.RemoveAt(i);
+            }
+            for (int i = AddTexBoxValues.Children.Count - 1; i >= 0; i--)
+            {
+                AddTexBoxValues.Children.RemoveAt(i);
+            }
+
+            TextBoxFLName.Text = client.Username;
+            TextBoxWeightValue.Text = client.Weight;
+            TextBoxGrowthValue.Text = client.Growth.ToString();
+            TextBoxNumberValue.Text = client.NumberPhone;
+        }
+        private void _DrawContext()
+        {
+            //RhFactor
+            foreach(var table in ControllerDB.Tables)
+            {
+                if(table is RhFactor)
+                {
+                    Border border = new Border
+                    {
+                        Style = (Style)FindResource("ValueBorder"),
+                        Margin = new Thickness(0, 1, 0, 1),
+                        Tag = table as RhFactor
+                    };
+                    TextBox textbox = new TextBox
+                    {
+                        Style = (Style)FindResource("ValueTextBox"),
+                        IsReadOnly = true,
+                        Focusable = false,
+                        Cursor = Cursors.Arrow,
+                        FontSize = 12,
+                        Text = (table as RhFactor).Name
+                    };
+                    border.Child = textbox;
+                    border.MouseDown += SelectRhFactor;
+                    StackPanelRhFactorValues.Children.Add(border);
+                }
+            }
+            //Sex Man Famale
+            Border manBorder = new Border
+            {
+                Style = (Style)FindResource("ValueBorder"),
+                Margin = new Thickness(0, 1, 0, 1),
+                Tag = "Чоловік"
+            };
+            TextBox manTexBox = new TextBox
+            {
+                Style = (Style)FindResource("ValueTextBox"),
+                IsReadOnly = true,
+                Focusable = false,
+                Cursor = Cursors.Arrow,
+                FontSize = 12,
+                Text = "Чоловік"
+            };
+            manBorder.Child = manTexBox;
+            Border famaleBorder = new Border
+            {
+                Style = (Style)FindResource("ValueBorder"),
+                Margin = new Thickness(0, 1, 0, 1),
+                Tag = "Жінка"
+            };
+            TextBox famaleTexBox = new TextBox
+            {
+                Style = (Style)FindResource("ValueTextBox"),
+                IsReadOnly = true,
+                Focusable = false,
+                Cursor = Cursors.Arrow,
+                FontSize = 12,
+                Text = "Жінка"
+            };
+            famaleBorder.Child = famaleTexBox;
+            manBorder.MouseDown += SelectSex;
+            famaleBorder.MouseDown += SelectSex;
+            StackPanelSexValues.Children.Add(manBorder);
+            StackPanelSexValues.Children.Add(famaleBorder);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 namespace ASUMED
 {
     public abstract class DBTable
@@ -25,10 +26,29 @@ namespace ASUMED
         {
             return false;
         }
-        public virtual string cmdUpdateDB(string varibleUpdate, string valueUpdate, string varible, string Value)
+        public virtual string cmdUpdateDB(string varibleUpdate, object valueUpdate, string varible, object Value)
         {
             TABLE = $"{GetName()}";
-            return $"{UPDATE} {TABLE} {SET} {varibleUpdate} = {valueUpdate} {WHERE} {varible} = {Value};";
+            if(valueUpdate is int && Value is int )
+            {
+                int valUp = Convert.ToInt32(valueUpdate);
+                int val  = Convert.ToInt32(Value);
+                return $"{UPDATE} {TABLE} {SET} {varibleUpdate} = {valUp} {WHERE} {varible} = {val};";
+            }
+            else if (valueUpdate is string && Value is string)
+            {
+                string valUp = Convert.ToString(valueUpdate);
+                string val = Convert.ToString(Value);
+                return $"{UPDATE} {TABLE} {SET} {varibleUpdate} = '{valUp}' {WHERE} {varible} = '{val}';";
+            }
+            else if (valueUpdate is string && Value is int)
+            {
+                string valUp = Convert.ToString(valueUpdate);
+                int val = Convert.ToInt32(Value);
+                return $"{UPDATE} {TABLE} {SET} {varibleUpdate} = '{valUp}' {WHERE} {varible} = {val};";
+            }
+            return ErrorExceptrionSTR;
+            
         }
         public virtual string cmdAddDB()
         {
@@ -44,6 +64,11 @@ namespace ASUMED
         {
             TABLE = GetName();
             return DELETE +" "+ TABLE +" "+ WHERE +" "+ VARIBLE + ";";
+        }
+        public virtual string cmdDellDB(float value)
+        {
+            TABLE = GetName();
+            return DELETE + " " + TABLE + " " + WHERE + " " + VARIBLE + ";";
         }
     }
 }

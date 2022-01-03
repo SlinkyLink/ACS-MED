@@ -8,7 +8,8 @@ namespace ASUMED
         public int ID {get; set;}
         public string Username { get; set; }
         public string Password { get; set; }
-        public string CreatedBy { get; set; }
+        public int CreatedBy { get; set; }
+        public int RankID { get; set; } 
         public Accounts() {}
         public override bool HaveData(string varible, object value)
         {
@@ -19,12 +20,14 @@ namespace ASUMED
             if (varible == "Password")
                 if ((string)value == Password) return true;
             if (varible == "CreatedBy")
-                if ((string)value == CreatedBy) return true;
+                if (Convert.ToInt32(value) == CreatedBy) return true;
+            if (varible == "RankID")
+                if (Convert.ToInt32(value) == RankID) return true;
             return false;
         }
         public override string cmdAddDB()
         {
-            VARIBLE = $"({ID}, '{Username}', '{Password}', '{CreatedBy}')";
+            VARIBLE = $"({ID}, '{Username}', '{Password}', {CreatedBy}, {RankID})";
 
             return base.cmdAddDB();
         }
@@ -33,7 +36,6 @@ namespace ASUMED
             string temp;
             if (Username == Value) temp = "Username";
             else if (Password == Value) temp = "Password";
-            else if (CreatedBy == Value) temp = "CreatedBy";
             else return ErrorExceptrionSTR;
             VARIBLE = $"{temp} = '{Value}'";
             return base.cmdDellDB(Value);
@@ -42,6 +44,8 @@ namespace ASUMED
         {
             string temp;
             if(Value == ID) temp = "ID";
+            else if (CreatedBy == Value) temp = "CreatedBy";
+            else if (RankID == Value) temp = "RankID";
             else return ErrorExceptrionSTR;
             VARIBLE = $"{temp} = {Value}";
             return base.cmdDellDB(Value);

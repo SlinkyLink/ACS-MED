@@ -24,7 +24,6 @@ namespace ASUMED
                 if ((string)value == Desc) return true;
             return false;
         }
-
         public override string cmdAddDB()
         {
             VARIBLE = $"({ID}, '{Name}', {CreatedAt}, '{Category}', '{Desc}')";

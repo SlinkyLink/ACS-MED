@@ -18,6 +18,16 @@ namespace ASUMED
 {
     public partial class PillsPage : Page
     {
+        private TPage _page;
+        public ASUDBController ControllerDB { get; set; }
+        public ERank ERank;
+        public double scrollW, scrollH;
+
+        private void PageLoaded(object sender, RoutedEventArgs e)
+        {
+            _page = TPage.Pills;
+        }
+
         public PillsPage()
         {
             InitializeComponent();

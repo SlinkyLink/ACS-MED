@@ -7,24 +7,78 @@
       mc:Ignorable="d" 
       Height = "720"
       Width = "1280"
-      Title="Procedures" x:Name="ProcPage">
-
-    <Border CornerRadius="15" Background="#FF29ABE2">
+      Title="Procedures" x:Name="ProcPage" Loaded="Page_Loaded">
+    <Page.Resources>
+        <Style TargetType="Border" x:Key="LeftBorder">
+            <Setter Property= "Margin" Value="4"/>
+            <Setter Property= "Background" Value="Blue"/>
+            <Setter Property="MinHeight" Value="25"/>
+            <Setter Property="CornerRadius" Value="10"/>
+        </Style>
+        <Style TargetType="Label" x:Key="LeftLabel">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        <ContextMenu Style="{DynamicResource CtnMenuUpdate}" x:Key="cmBorderUpdate" Background="Blue"/>
+        <Style TargetType="ContextMenu" x:Key="CtnMenuUpdate">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border  BorderBrush="#FF85BCD2" CornerRadius="5" BorderThickness="2" Background="Blue" SnapsToDevicePixels="True" >
+                            <StackPanel Orientation="Vertical">
+                                <Border Tag="UpdateB" MinWidth="150" BorderThickness="0" BorderBrush="#FF85BCD2" Background="Transparent" MouseDown="ContextUpdateMouseDown">
+                                    <Label Style="{StaticResource LeftLabel}" Content="Оновити" HorizontalAlignment="Center"/>
+                                </Border>
+                                <Border  BorderBrush="#FF85BCD2" BorderThickness="1"/>
+                                <Border Tag="UpdateB" MinWidth="150" BorderThickness="0" Background="Transparent" BorderBrush="#FF85BCD2" MouseDown="ContextAddMouseDown">
+                                    <Label Style="{StaticResource LeftLabel}" Content="Додати" HorizontalAlignment="Center"/>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+        <Border CornerRadius="15" Background="#FF29ABE2">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="7*"/>
             </Grid.ColumnDefinitions>
             <Border CornerRadius="15" Grid.Column="0" Background="#FFA0DFF8" Margin="0 0 1 0">
-
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="9.5*"/>
+                    </Grid.RowDefinitions>
+                    <Label x:Name="LabelFSName" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" FontWeight="Bold" Foreground="White" Content="First Last NAME"/>
+                    <StackPanel Grid.Row="1" Orientation="Vertical" ScrollViewer.VerticalScrollBarVisibility="Auto"  ScrollViewer.CanContentScroll="True">
+                        <Grid x:Name="ScrollViewerList">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <StackPanel x:Name="StackPanelProceduresList" Orientation="Vertical">
+                                    <Border Style="{StaticResource LeftBorder}">
+                                        <Label Style="{StaticResource LeftLabel}" Content="Exemple 1"/>
+                                    </Border>
+                                    <Border Style="{StaticResource LeftBorder}">
+                                        <Label Style="{StaticResource LeftLabel}" Content="Exemple 2"/>
+                                    </Border>
+                                    <Border Style="{StaticResource LeftBorder}">
+                                        <Label Style="{StaticResource LeftLabel}" Content="Exemple 3"/>
+                                    </Border>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
             </Border>
-            <Grid Grid.Column="0" Margin="0 30 0 0">
-                <StackPanel x:Name="ListDoctorsPanel" Orientation="Vertical" >
-
-                </StackPanel>
-            </Grid>
             <Border CornerRadius="15" Grid.Column="1" Background="#FFA0DFF8" Margin="1 0 0 0">
-
+                <TextBox x:Name="TextBoxProcedures" IsReadOnly="True" AcceptsReturn="True" Margin="30"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                ScrollViewer.CanContentScroll="True" FontSize="18" FontFamily="Myriad Pro"/>
             </Border>
         </Grid>
     </Border>

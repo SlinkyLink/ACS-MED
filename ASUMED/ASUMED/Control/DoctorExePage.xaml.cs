@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 using ASUMED.Controller;
-
+using Cryptography;
 
 namespace ASUMED.Control
 {
@@ -22,6 +22,7 @@ namespace ASUMED.Control
     {
         public ASUDBController ControllerDB { get; set; }
         public EMode EMode;
+        public List<Border> botders;
         public DoctorExePage()
         {
             InitializeComponent();
@@ -35,11 +36,14 @@ namespace ASUMED.Control
                     break;
                 case EMode.Update:
                     (ExeBorder.Child as Label).Content = "Оновити";
+                    AddValuesStackPanel.Visibility = Visibility.Hidden;
+                    AddValuesLabeles.Visibility = Visibility.Hidden;
                     _FillTextBox();
                     break;
                 default:
                     break;
             }
+            _DrawContexts();
         }
         private void CloseWin(object sender, MouseButtonEventArgs e)
         {
@@ -71,11 +75,30 @@ namespace ASUMED.Control
         }
         private void ExecuteBtn(object sender, MouseButtonEventArgs e)
         {
-            for (int i = ValuesTextBox.Children.Count - 1; i >= 0; i--)
+            for (int i = ValuesStackPanel.Children.Count - 1; i >= 0; i--)
             {
-                if (((ValuesTextBox.Children[i] as Border).Child as TextBox).Text == "")
+                if(ValuesStackPanel.Children[i] is Border)
                 {
-                    return;
+                    if (((ValuesStackPanel.Children[i] as Border).Child as TextBox).Text == "")
+                    {
+                        return;
+                    }
+                }
+                if (EMode == EMode.Add)
+                {
+                    if (ValuesStackPanel.Children[i] is StackPanel)
+                    {
+                        for (int j = AddValuesStackPanel.Children.Count - 1; j >= 0; j--)
+                        {
+                            if (AddValuesStackPanel.Children[j] is Border)
+                            {
+                                if (((AddValuesStackPanel.Children[j] as Border).Child as TextBox).Text == "")
+                                {
+                                    return;
+                                }
+                            }
+                        }
+                    }
                 }
             }
             switch (EMode)
@@ -90,52 +113,237 @@ namespace ASUMED.Control
                     break;
             }
         }
+        private void PositionMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (ContextSpecialization.Visibility == Visibility.Visible)
+                ContextSpecialization.Visibility = Visibility.Hidden;
+            if (ContexSex.Visibility == Visibility.Visible)
+                ContexSex.Visibility = Visibility.Hidden;
+            if (ContextShedule.Visibility == Visibility.Visible)
+                ContextShedule.Visibility = Visibility.Hidden;
+
+            if (ContextPosition.Visibility == Visibility.Visible)
+                ContextPosition.Visibility = Visibility.Hidden;
+            else ContextPosition.Visibility = Visibility.Visible;
+        }
+        private void SpecializationMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (ContextPosition.Visibility == Visibility.Visible)
+                ContextPosition.Visibility = Visibility.Hidden;
+            if (ContexSex.Visibility == Visibility.Visible)
+                ContexSex.Visibility = Visibility.Hidden;
+            if (ContextShedule.Visibility == Visibility.Visible)
+                ContextShedule.Visibility = Visibility.Hidden;
+
+            if(ContextSpecialization.Visibility == Visibility.Visible)
+                ContextSpecialization.Visibility = Visibility.Hidden;
+            else ContextSpecialization.Visibility = Visibility.Visible;
+        }
+        private void SexMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (ContextPosition.Visibility == Visibility.Visible)
+                ContextPosition.Visibility = Visibility.Hidden;
+            if (ContextSpecialization.Visibility == Visibility.Visible)
+                ContextSpecialization.Visibility = Visibility.Hidden;
+            if (ContextShedule.Visibility == Visibility.Visible)
+                ContextShedule.Visibility = Visibility.Hidden;
+
+            if (ContexSex.Visibility == Visibility.Visible)
+                ContexSex.Visibility = Visibility.Hidden;
+            else ContexSex.Visibility = Visibility.Visible;
+        }
+        private void SheduleMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (ContextPosition.Visibility == Visibility.Visible)
+                ContextPosition.Visibility = Visibility.Hidden;
+            if (ContextSpecialization.Visibility == Visibility.Visible)
+                ContextSpecialization.Visibility = Visibility.Hidden;
+            if (ContexSex.Visibility == Visibility.Visible)
+                ContexSex.Visibility = Visibility.Hidden;
+
+            if (ContextShedule.Visibility == Visibility.Visible)
+                ContextShedule.Visibility = Visibility.Hidden;
+            else ContextShedule.Visibility = Visibility.Visible;
+        }
+        private void SelectPosition(object sender, MouseButtonEventArgs e)
+        {
+            RankGroups posit = (sender as Border).Tag as RankGroups;
+            TextBoxPositionValue.Text = posit.Name;
+            ContextPosition.Visibility = Visibility.Hidden;
+        }
+        private void SelectSpecialization(object sender, MouseButtonEventArgs e)
+        {
+            Specialization posit = (sender as Border).Tag as Specialization;
+            TextBoxSpecializationValue.Text = posit.Name;
+            ContextSpecialization.Visibility = Visibility.Hidden;
+        }
+        private void SelectSex(object sender, MouseButtonEventArgs e)
+        {
+            TextBoxSexValue.Text = (string)(sender as Border).Tag;
+            ContexSex.Visibility = Visibility.Hidden;
+        }
+        private void SelectShedule(object sender, MouseButtonEventArgs e)
+        {
+            TextBoxSheduleValue.Text = (string)(sender as Border).Tag;
+            ContextShedule.Visibility = Visibility.Hidden;
+        }
         private void _FillTextBox()
         {
             Doctors doc = (ControllerDB.activeTable as Doctors);
-            ((ValuesTextBox.Children[0] as Border).Child as TextBox).Text = doc.Username;
-            ((ValuesTextBox.Children[1] as Border).Child as TextBox).Text = doc.IDPassport.ToString();
-            ((ValuesTextBox.Children[2] as Border).Child as TextBox).Text = (ControllerDB.GetTable("Accounts", "ID", doc.ID) as Accounts).Username.ToString();
-            ((ValuesTextBox.Children[3] as Border).Child as TextBox).Text = (ControllerDB.GetTable("Accounts", "ID", doc.ID) as Accounts).Password.ToString();
+            TextBoxFLValue.Text = doc.Username;
+            TextBoxPositionValue.Text = ControllerDB.GetDoctorRank(doc);
+            TextBoxSpecializationValue.Text = ControllerDB.GetSpecializationOfDoctor(doc);
+            TextBoxIDPassValue.Text = doc.IDPassport.ToString();
+            TextBoxLogValue.Text = (ControllerDB.GetTable("Accounts", "ID", doc.ID) as Accounts).Username;
+            TextBoxPassValue.Text = (ControllerDB.GetTable("Accounts", "ID", doc.ID) as Accounts).Password;
         }
         private void _Add()
         {
-            int idDoc = ControllerDB.GenerateID("Doctors");
-            string username = ((ValuesTextBox.Children[0] as Border).Child as TextBox).Text;
-            int idPassport = Convert.ToInt32(((ValuesTextBox.Children[1] as Border).Child as TextBox).Text);
-            string login = ((ValuesTextBox.Children[2] as Border).Child as TextBox).Text;
-            string password = ((ValuesTextBox.Children[3] as Border).Child as TextBox).Text;
-            string createdAt = ASUDBController.TIME;
-            string createdBy = ControllerDB.LogDoctor.Username;
+            string fsname = TextBoxFLValue.Text;
+            string position = TextBoxPositionValue.Text;
+            string specialization = TextBoxSpecializationValue.Text;
+            int idPass = Convert.ToInt32(TextBoxIDPassValue.Text);
+            string login = TextBoxLogValue.Text;
+            string pass = TextBoxPassValue.Text;
+            string sex = TextBoxSexValue.Text;
+            string datebirth = TextBoxDateOfBirthValue.Text;
+            string shedule = TextBoxSheduleValue.Text;
 
+            int createdBy = ControllerDB.LogDoctor.ID;
+            int idDoc = ControllerDB.GenerateID("Doctors");
+            int idRank = ControllerDB.GetRankID(position);
+            int idAcc = idDoc;
+            int idSpec = 0;
+            foreach(var table in ControllerDB.Tables)
+            {
+                if(table is Specialization)
+                {
+                    if((table as Specialization).Name == specialization)
+                    {
+                        idSpec = (table as Specialization).ID;
+                        break;
+                    }
+                }
+            }
+
+            int sh = 0;
+            int c = 0;
+            if(shedule == "Пн 7:30-12:30, Вт 12:30-17:30...")
+            {
+                sh = 1;
+            }
+            else if (shedule == "Пн 12:30-17:30, Вт 7:30-12:30...")
+            {
+                sh = 2;
+            }
+
+            for(int i = 0; i < 7; i++)
+            {
+                if(i == 0)
+                {
+                    ControllerDB.AddData(new SheduleDoctors
+                    { 
+                        DocID = idDoc,
+                        TimeID = 21,
+                        DayID = i,
+                    });
+                    continue;
+                }
+                else if (i == 6)
+                {
+                    ControllerDB.AddData(new SheduleDoctors
+                    {
+                        DocID = idDoc,
+                        TimeID = 20,
+                        DayID = i,
+                    });
+                    continue;
+                }
+                else
+                {
+                    if (sh == 1)
+                    {
+                        if(i % 2 == 0)
+                        {
+                            ControllerDB.AddData(new SheduleDoctors
+                            {
+                                DocID = idDoc,
+                                TimeID = 10,
+                                DayID = i
+                            });
+                            continue;
+                        }
+                        else if (i % 2 == 1)
+                        {
+                            ControllerDB.AddData(new SheduleDoctors
+                            {
+                                DocID = idDoc,
+                                TimeID = 11,
+                                DayID= i
+                            });
+                        }
+                    }
+                    else if (sh == 2)
+                    {
+                        if (i % 2 == 0)
+                        {
+                            ControllerDB.AddData(new SheduleDoctors
+                            {
+                                DocID = idDoc,
+                                TimeID = 11,
+                                DayID = i
+                            });
+                            continue;
+                        }
+                        else if (i % 2 == 1)
+                        {
+                            ControllerDB.AddData(new SheduleDoctors
+                            {
+                                DocID = idDoc,
+                                TimeID = 10,
+                                DayID = i
+                            });
+                        }
+                    }
+                }
+            }
             ControllerDB.AddData(new Doctors
             {
                 ID = idDoc,
-                Username = username,
-                IDPassport = idPassport,
-                CreatedAt = createdAt,
+                Username = fsname,
+                Sex = sex,
+                DateOfBirth = datebirth,
+                IDPassport = idPass,
+                CreatedAt = ASUDBController.TIME,
                 CreatedBy = createdBy,
+                IDSpec = idSpec
+                
             });
             ControllerDB.AddData(new Accounts
             {
-                ID = idDoc,
+                ID = idAcc,
                 Username = login,
-                Password = password,
-                CreatedBy=createdBy
+                Password = Sha256.ToSHA256(pass),
+                CreatedBy = createdBy,
+                RankID = idRank
             });
-            ControllerDB.AddData(new DocsCl
+
+            for (int i = ValuesStackPanel.Children.Count - 1; i >= 0; i--)
             {
-                DocID = idDoc,
-                AccID = idDoc
-            });
-            ControllerDB.AddData(new RankSys
-            {
-                AccID = idDoc,
-                RankID = ControllerDB.GetRankID("Лікар")
-            });
-            foreach (Border bor in ValuesTextBox.Children)
-            {
-                (bor.Child as TextBox).Text = "";
+                if (ValuesStackPanel.Children[i] is Border)
+                {
+                    ((ValuesStackPanel.Children[i] as Border).Child as TextBox).Text = "";
+                }
+                if (ValuesStackPanel.Children[i] is StackPanel)
+                {
+                    for (int j = AddValuesStackPanel.Children.Count - 1; j >= 0; j--)
+                    {
+                        if (AddValuesStackPanel.Children[j] is Border)
+                        {
+                            ((AddValuesStackPanel.Children[j] as Border).Child as TextBox).Text = "";
+                        }
+                    }
+                }
             }
             foreach (Window window in Application.Current.Windows)
             {
@@ -150,32 +358,52 @@ namespace ASUMED.Control
         private void _Update()
         {
             bool isChange = false;
+            
+            string flname = TextBoxFLValue.Text;
+            string position = TextBoxPositionValue.Text;
+            string specialization = TextBoxSpecializationValue.Text;
+            int idPass = Convert.ToInt32(TextBoxIDPassValue.Text);
+            string login = TextBoxLogValue.Text;
+            string pass = TextBoxPassValue.Text;
+
+
             var doc = ControllerDB.activeTable as Doctors;
             var loginDoc = ControllerDB.GetTable("Accounts", "ID", doc.ID) as Accounts;
-            string username = ((ValuesTextBox.Children[0] as Border).Child as TextBox).Text;
-            int idPassport = Convert.ToInt32(((ValuesTextBox.Children[1] as Border).Child as TextBox).Text);
-            string login = ((ValuesTextBox.Children[2] as Border).Child as TextBox).Text; 
-            string password = ((ValuesTextBox.Children[3] as Border).Child as TextBox).Text; 
-            if (username != doc.Username)
+
+
+            if (flname != doc.Username)
             {
-                ControllerDB.UpdateData(doc, "Username", $"'{username}'", "ID", doc.ID.ToString());
                 isChange = true;
+                ControllerDB.UpdateData(doc, "Username", flname, "ID", doc.ID);
             }
-            if (idPassport != doc.IDPassport)
+            if(position != ControllerDB.GetDoctorRank(doc))
             {
-                ControllerDB.UpdateData(doc, "IDPassport", $"'{idPassport}'", "ID", doc.ID.ToString());
-                isChange=true;
-            }
-            if (login != loginDoc.Username)
-            {
-                ControllerDB.UpdateData(loginDoc, "Username", $"'{login}'", "ID", loginDoc.ID.ToString());
                 isChange = true;
+                ControllerDB.UpdateData(loginDoc, "RankID", ControllerDB.GetRankID(position), "ID", doc.ID);
             }
-            if (password != loginDoc.Password)
+            if(specialization != ControllerDB.GetSpecializationOfDoctor(doc))
             {
-                ControllerDB.UpdateData(loginDoc, "Password", $"'{password}'", "ID", loginDoc.ID.ToString());
                 isChange = true;
+                ControllerDB.UpdateData(doc, "IDSpec", ControllerDB.GetSpecializationID(specialization), "ID", doc.ID);
             }
+            if(idPass != doc.IDPassport)
+            {
+                isChange = true;
+                ControllerDB.UpdateData(doc, "IDPassport", idPass, "ID", doc.ID);
+            }
+            if(login != (ControllerDB.GetTable("Accounts", "ID", doc.ID) as Accounts).Username)
+            {
+                isChange = true;
+                ControllerDB.UpdateData(loginDoc, "Username", login, "ID", loginDoc.ID);
+
+            }
+            if (Sha256.ToSHA256(pass) != (ControllerDB.GetTable("Accounts", "ID", doc.ID) as Accounts).Password)
+            {
+                isChange = true;
+                ControllerDB.UpdateData(loginDoc, "Password", Sha256.ToSHA256(pass), "ID", loginDoc.ID);
+            }
+                
+
             if (isChange) MessageBox.Show("Дані було змінено");
             foreach (Window window in Application.Current.Windows)
             {
@@ -186,6 +414,136 @@ namespace ASUMED.Control
                     return;
                 }
             }
+        }
+        private void _DrawContexts()
+        {
+            ContextPosition.Width += 5f;
+            ContextSpecialization.Width += 5f;
+            ContexSex.Width += 5f;
+            //Positions
+            foreach(var table in ControllerDB.Tables)
+            {
+                if(table is RankGroups)
+                {
+                    Border border = new Border
+                    {
+                        Style = (Style)FindResource("ValueBorder"),
+                        Tag = table as RankGroups,
+                        Margin = new Thickness(0, 1, 0, 1)
+                    };
+                    border.MouseDown += SelectPosition;
+                    TextBox textBox = new TextBox
+                    {
+                        Style = (Style)FindResource("ValueTextBox"),
+                        IsReadOnly = true,
+                        Focusable = false,
+                        Cursor = Cursors.Arrow,
+                        Text = (table as RankGroups).Name
+                    };
+                    border.Child = textBox;
+                    StackPanelPositionValues.Children.Add(border);
+                }
+            }
+            //Specializations
+            foreach (var table in ControllerDB.Tables)
+            {
+                if (table is Specialization)
+                {
+                    Border border = new Border
+                    {
+                        Style = (Style)FindResource("ValueBorder"),
+                        Tag = table as Specialization,
+                        Margin = new Thickness(0, 1, 0, 1)
+                    };
+                    border.MouseDown += SelectSpecialization;
+
+                    TextBox textBox = new TextBox
+                    {
+                        Style = (Style)FindResource("ValueTextBox"),
+                        IsReadOnly = true,
+                        Focusable = false,
+                        Cursor = Cursors.Arrow,
+                        FontSize = 12,
+                        Text = (table as Specialization).Name
+                    };
+                    border.Child = textBox;
+                    StackPanelSpecializationValues.Children.Add(border);
+                }
+            }
+            //Sex Man Famale
+            Border manBorder = new Border
+            {
+                Style = (Style)FindResource("ValueBorder"),
+                Margin = new Thickness(0, 1, 0, 1),
+                Tag = "Чоловік"
+            };
+            TextBox manTexBox = new TextBox
+            {
+                Style = (Style)FindResource("ValueTextBox"),
+                IsReadOnly = true,
+                Focusable = false,
+                Cursor = Cursors.Arrow,
+                FontSize = 12,
+                Text = "Чоловік"
+            };
+            manBorder.Child = manTexBox;
+            Border famaleBorder = new Border
+            {
+                Style = (Style)FindResource("ValueBorder"),
+                Margin = new Thickness(0, 1, 0, 1),
+                Tag = "Жінка"
+            };
+            TextBox famaleTexBox = new TextBox
+            {
+                Style = (Style)FindResource("ValueTextBox"),
+                IsReadOnly = true,
+                Focusable = false,
+                Cursor = Cursors.Arrow,
+                FontSize = 12,
+                Text = "Жінка"
+            };
+            famaleBorder.Child = famaleTexBox;
+            manBorder.MouseDown += SelectSex;
+            famaleBorder.MouseDown += SelectSex;
+            StackPanelSexValues.Children.Add(manBorder);
+            StackPanelSexValues.Children.Add(famaleBorder);
+            //Shedule
+            Border sheduleBorder1 = new Border
+            {
+                Style = (Style)FindResource("ValueBorder"),
+                Margin = new Thickness(0, 1, 0, 1),
+                Tag = "Пн 7:30-12:30, Вт 12:30-17:30..."
+            };
+            TextBox sheduleTextBox1 = new TextBox
+            {
+                Style = (Style)FindResource("ValueTextBox"),
+                IsReadOnly = true,
+                Focusable = false,
+                Cursor = Cursors.Arrow,
+                FontSize = 12,
+                Text = "Пн 7:30-12:30, Вт 12:30-17:30..."
+            };
+            sheduleBorder1.Child = sheduleTextBox1;
+            Border sheduleBorder2 = new Border
+            {
+                Style = (Style)FindResource("ValueBorder"),
+                Margin = new Thickness(0, 1, 0, 1),
+                Tag = "Пн 12:30-17:30, Вт 7:30-12:30..."
+            };
+            TextBox sheduleTextBox2 = new TextBox
+            {
+                Style = (Style)FindResource("ValueTextBox"),
+                IsReadOnly = true,
+                Focusable = false,
+                Cursor = Cursors.Arrow,
+                FontSize = 12,
+                Text = "Пн 12:30-17:30, Вт 7:30-12:30..."
+            };
+            sheduleBorder2.Child = sheduleTextBox2;
+            sheduleBorder1.MouseDown += SelectShedule;
+            sheduleBorder2.MouseDown += SelectShedule;
+            StackPanelSheduleValues.Children.Add(sheduleBorder1);
+            StackPanelSheduleValues.Children.Add(sheduleBorder2);
         }
     }
 }

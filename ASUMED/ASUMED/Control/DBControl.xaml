@@ -7,12 +7,13 @@
         mc:Ignorable="d"
         Title="DBControl" 
         WindowStyle="None"
-        Width="320" Height="350"
+        Width="350" Height="400"
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen"
         Background="Transparent" 
         ResizeMode="NoResize" 
-        Loaded="Window_Loaded">
+        Loaded="Window_Loaded"
+        MouseDown="WindowClick">
     <Window.Resources>
         <Style TargetType="Label" x:Key="VaribleLabel">
             <Setter Property="Foreground" Value="White"/>
@@ -63,51 +64,6 @@
             </Grid>
             <Grid Grid.Row="2" x:Name="ElementsGrid">
                 <Frame x:Name="WindowContent" NavigationUIVisibility="Hidden"/>
-                <Grid Grid.Row="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="5*"/>
-                        <ColumnDefinition Width="7*"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel x:Name="VaribalesLabel" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center"  HorizontalAlignment="Center">
-                        <Label Style="{StaticResource VaribleLabel}" Content="Example 1"/>
-                        <Label Style="{StaticResource VaribleLabel}" Content="Example 2"/>
-                        <Label Style="{StaticResource VaribleLabel}" Content="Example 3"/>
-                        <Label Style="{StaticResource VaribleLabel}" Content="Example 3"/>
-                        <Label Style="{StaticResource VaribleLabel}" Content="Example 3"/>
-                        <Label Style="{StaticResource VaribleLabel}" Content="Example 3"/>
-                    </StackPanel>
-                    <StackPanel x:Name="ValuesTextBox" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left">
-                        <Border Style="{StaticResource ValueBorder}">
-                            <TextBox Style="{StaticResource ValueTextBox}" Text="Example 1"/>
-                        </Border>
-                        <Border Style="{StaticResource ValueBorder}">
-                            <TextBox Style="{StaticResource ValueTextBox}" Text="Example 2"/>
-                        </Border>
-                        <Border Style="{StaticResource ValueBorder}">
-                            <TextBox Style="{StaticResource ValueTextBox}" Text="Example 3"/>
-                        </Border>
-                        <Border Style="{StaticResource ValueBorder}">
-                            <TextBox Style="{StaticResource ValueTextBox}" Text="Example 4"/>
-                        </Border>
-                        <Border Style="{StaticResource ValueBorder}">
-                            <TextBox Style="{StaticResource ValueTextBox}" Text="Example 5"/>
-                        </Border>
-                        <Border Style="{StaticResource ValueBorder}">
-                            <TextBox Style="{StaticResource ValueTextBox}" Text="Example 6"/>
-                        </Border>
-
-                    </StackPanel>
-                </Grid>
-                <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                    <Border x:Name="BtnDo" Style="{StaticResource BtnC}">
-                        <Label HorizontalAlignment="Center" FontSize="15" Foreground="#FF93DBF7" Content="Exemple"/>
-                    </Border>
-                    <Border Style="{StaticResource BtnC}" MouseDown="CloseWin">
-                        <Label HorizontalAlignment="Center" FontSize="15" Foreground="#FF93DBF7">
-                            Відмова
-                        </Label>
-                    </Border>
-                </StackPanel>
             </Grid>
         </Grid>
     </Border>

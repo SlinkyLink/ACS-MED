@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ASUMED.Controller;
 using ASUMED.Control;
-
+using System.Text.RegularExpressions;
 namespace ASUMED
 {
     public partial class PatientsPage : Page
@@ -30,6 +30,7 @@ namespace ASUMED
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             LabelFSName.Content = ControllerDB.LogDoctor.Username;
+            (BorderBtnMedHist.Child as Label).Content = "Змінити";
             for (int i = ListPatientsPanel.Children.Count - 1; i >= 0; i--)
             {
                 ListPatientsPanel.Children.RemoveAt(i);
@@ -65,8 +66,23 @@ namespace ASUMED
             ControllerDB.activeTable = ((sender as Border).Tag as Clients);
             if (e.ChangedButton == MouseButton.Left)
             {
+                if (!TextBoxSickBook.IsReadOnly)
+                {
+                    TextBoxSickBook.IsReadOnly = true;
+                    (BorderBtnMedHist.Child as Label).Content = "Змінити";
+                }
                 var patient = ((Border)sender).Tag as Clients;
                 if (patient == null) return;
+                TextBoxFLNameValue.Text = patient.Username;
+                TextBoxSexValue.Text = patient.Sex;
+                TextBoxDayOfBirthValue.Text = patient.DateOfBirth;
+                TextBoxRhesusFactorValue.Text = ControllerDB.GetRhFactorOfPatient(patient);
+                TextBoxGrowthValue.Text = patient.Growth.ToString();
+                TextBoxWeightValue.Text = patient.Weight.ToString();
+                TextBoxStateOfTherapyValue.Text = "";
+                TextBoxCreatedByValue.Text = ControllerDB.GetDoctorOfPatient(patient);
+                TextBoxNumberPhoneValue.Text = patient.NumberPhone.ToString();
+                TextBoxSickBook.Text = patient.MedStory;
             }
             else if (e.ChangedButton == MouseButton.Right)
             {
@@ -83,10 +99,6 @@ namespace ASUMED
         private void DeleteItem(object sender, MouseButtonEventArgs e)
         {
             return;
-        }
-        public void UpdateData(object sender, MouseButtonEventArgs e)
-        {
-            _UpdateData();
         }
         private void UpdateItem(object sender, MouseButtonEventArgs e)
         {
@@ -149,7 +161,31 @@ namespace ASUMED
 
 
                 }
-        private void _UpdateData()
+        private void BtnMedHist(object sender, MouseButtonEventArgs e)
+        {
+
+            if(TextBoxSickBook.IsReadOnly)
+            {
+                (BorderBtnMedHist.Child as Label).Content = "Застосувати";
+                TextBoxSickBook.IsReadOnly = false;
+            }
+            else
+            {
+                (BorderBtnMedHist.Child as Label).Content = "Змінити";
+                TextBoxSickBook.IsReadOnly = true;
+
+                ControllerDB.UpdateData(ControllerDB.activeTable as Clients, "MedStory", TextBoxSickBook.Text, "ID", (ControllerDB.activeTable as Clients).ID);
+                UpdateData();
+            }
+        }
+        private void StrTextPreview(object sender, TextCompositionEventArgs e)
+        {
+            Regex regexen = new Regex("^[']+$");
+            if (regexen.IsMatch(e.Text))
+                e.Handled = true;
+            base.OnPreviewTextInput(e);
+        }
+        public void UpdateData()
         {
             for (int i = ListPatientsPanel.Children.Count - 1; i >= 0; i--)
             {

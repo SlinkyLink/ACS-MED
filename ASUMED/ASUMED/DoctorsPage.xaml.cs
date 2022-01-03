@@ -69,23 +69,26 @@ namespace ASUMED
             {
                 if (doctor is Doctors doc)
                 {
-                    Border border = new Border
+                    if (doc.ID != 100)
                     {
-                        Style = (Style)FindResource("LeftBorder"),
-                        Tag = doc,
-                    };
+                        Border border = new Border
+                        {
+                            Style = (Style)FindResource("LeftBorder"),
+                            Tag = doc,
+                        };
 
 
-                    border.Child = new Label
-                    {
-                        Style = (Style)FindResource("LeftLabel"),
-                        Content= doc.Username
-                    };
+                        border.Child = new Label
+                        {
+                            Style = (Style)FindResource("LeftLabel"),
+                            Content = doc.Username
+                        };
 
-                    border.Cursor = Cursors.Hand;
-                    ListDoctorsPanel.Children.Add(border);
+                        border.Cursor = Cursors.Hand;
+                        ListDoctorsPanel.Children.Add(border);
 
-                    border.MouseDown += Border_MouseDown;
+                        border.MouseDown += Border_MouseDown;
+                    }
                 }
             }
         }
@@ -126,6 +129,7 @@ namespace ASUMED
             {
                 var doctor = ((Border)sender).Tag as Doctors;
                 if (doctor == null) return;
+                
 
                 TextBoxFLValue.Text = doctor.Username;
                 TextBoxSexValue.Text = doctor.Sex;
@@ -138,7 +142,7 @@ namespace ASUMED
                     TextBoxIDPassportValue.Text = doctor.IDPassport.ToString();
                     TextBoxDateOfBirthValue.Text = doctor.DateOfBirth;
                     TextBoxCreatedAtValue.Text = doctor.CreatedAt;
-                    TextBoxCreatedByValue.Text = doctor.CreatedBy;
+                    TextBoxCreatedByValue.Text = ControllerDB.GetNameDoctor(doctor.CreatedBy);
                     TextBoxNumberReceptionValue.Text = "";
                     TextBoxWorkTimeValue.Text = "";
                 }

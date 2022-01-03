@@ -67,8 +67,26 @@ namespace ASUMED.Control
                         EMode = this.EMode
                     };
                     break;
+                case TPage.Procedures:
+                    WindowContent.Content = new ProcedureExePage
+                    {
+                        ControllerDB = this.ControllerDB,
+                        EMode= this.EMode
+                    };
+                    break;
                 default:
                     break;
+            }
+        }
+
+        private void WindowClick(object sender, MouseButtonEventArgs e)
+        {
+            if(WindowContent.Content is DoctorExePage)
+            {
+                (WindowContent.Content as DoctorExePage).ContextPosition.Visibility = Visibility.Hidden;
+                (WindowContent.Content as DoctorExePage).ContextSpecialization.Visibility = Visibility.Hidden;
+                (WindowContent.Content as DoctorExePage).ContextShedule.Visibility = Visibility.Hidden;
+                (WindowContent.Content as DoctorExePage).ContexSex.Visibility = Visibility.Hidden;
             }
         }
     }
