@@ -157,7 +157,7 @@ namespace ASUMED
             }
             else if (e.ChangedButton == MouseButton.Right)
             {
-                if (ControllerDB.GetLogDoctorRank() == "Головний лікар")
+                if (ERank == ERank.ChiefDoctor)
                 {
                     bool isDoc = false;
                     if (sender is not Border) return;

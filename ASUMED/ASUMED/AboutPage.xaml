@@ -12,13 +12,13 @@
     <Page.Resources>
         <Style TargetType="Border" x:Key="LeftBorder">
             <Setter Property= "Margin" Value="4"/>
-            <Setter Property= "Background" Value="Blue"/>
+            <Setter Property= "Background" Value="#7F29ABE2"/>
             <Setter Property="MinHeight" Value="25"/>
             <Setter Property="CornerRadius" Value="10"/>
             <Setter Property="Cursor" Value="Hand"/>
         </Style>
         <Style TargetType="Label" x:Key="LeftLabel">
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -37,7 +37,7 @@
                         <RowDefinition Height="0.5*"/>
                         <RowDefinition Height="9.5*"/>
                     </Grid.RowDefinitions>
-                    <Label x:Name="LabelFSName" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" FontWeight="Bold" Foreground="White" Content="First Last NAME"/>
+                    <Label x:Name="LabelFSName" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" FontWeight="Bold" Foreground="Black" Content="First Last NAME"/>
                     <StackPanel Grid.Row="1" Orientation="Vertical" >
                         <StackPanel x:Name="ListDoctorsPanel" Orientation="Vertical">
                             <Border Style="{StaticResource LeftBorder}" Tag="{x:Static en:EReference.LICENCE}" MouseDown="BorderReferenceClick" Cursor="Hand">
@@ -56,7 +56,7 @@
                         <RowDefinition Height="75"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" x:Name="LabelPageInfo" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20" FontFamily="Myriad Pro" Foreground="White"/>
+                    <Label Grid.Row="0" x:Name="LabelPageInfo" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20" FontFamily="Myriad Pro" Foreground="Black"/>
                     <TextBox Grid.Row="1" x:Name="TextBoxContent" Margin="25" IsReadOnly="True"
                                 TextAlignment="Center"
                                 ScrollViewer.HorizontalScrollBarVisibility="Auto"

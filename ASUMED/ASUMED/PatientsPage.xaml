@@ -12,12 +12,12 @@
     <Page.Resources>
         <Style TargetType="Border" x:Key="LeftBorder">
             <Setter Property= "Margin" Value="4"/>
-            <Setter Property= "Background" Value="Blue"/>
+            <Setter Property= "Background" Value="#7F29ABE2"/>
             <Setter Property="MinHeight" Value="25"/>
             <Setter Property="CornerRadius" Value="10"/>
         </Style>
         <Style TargetType="Label" x:Key="LeftLabel">
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -25,7 +25,7 @@
         </Style>
         <Style TargetType="Label" x:Key="LabelRight">
             <Setter Property="FontSize" Value="15"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="HorizontalAlignment" Value="Right"/>
         </Style>
@@ -48,13 +48,13 @@
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
-        <ContextMenu Style="{DynamicResource CtnMenuS}" x:Key="cmBorder" Background="Blue"/>
-        <ContextMenu Style="{DynamicResource CtnMenuUpdate}" x:Key="cmBorderUpdate" Background="Blue"/>
+        <ContextMenu Style="{DynamicResource CtnMenuS}" x:Key="cmBorder" Background="#7F29ABE2"/>
+        <ContextMenu Style="{DynamicResource CtnMenuUpdate}" x:Key="cmBorderUpdate" Background="#7F29ABE2"/>
         <Style TargetType="ContextMenu" x:Key="CtnMenuS">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate>
-                        <Border  BorderBrush="#FF85BCD2" CornerRadius="5" BorderThickness="2" Background="Blue" SnapsToDevicePixels="True">
+                        <Border  BorderBrush="#FF85BCD2" CornerRadius="5" BorderThickness="2" Background="#FF29ABE2" SnapsToDevicePixels="True">
                             <StackPanel Orientation="Vertical">
                                 <Border Tag="DeleteB" MinWidth="150" BorderThickness="0" Background="Transparent" BorderBrush="#FF85BCD2" MouseDown="DeleteItem">
                                     <Label Style="{StaticResource LeftLabel}" Content="Видалити" HorizontalAlignment="Center"/>
@@ -97,7 +97,7 @@
                         <RowDefinition Height="0.5*"/>
                         <RowDefinition Height="9.5*"/>
                     </Grid.RowDefinitions>
-                    <Label x:Name="LabelFSName" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" FontWeight="Bold" Foreground="White" Content="First Last NAME"/>
+                    <Label x:Name="LabelFSName" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" FontWeight="Bold" Foreground="Black" Content="First Last NAME"/>
                     <StackPanel Grid.Row="1" Orientation="Vertical" ScrollViewer.VerticalScrollBarVisibility="Auto"  ScrollViewer.CanContentScroll="True">
                         <Grid x:Name="ScrollViewerList">
                             <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -190,10 +190,11 @@
                     <Grid Grid.Row="2" Grid.Column="1">
                         <TextBox x:Name="TextBoxSickBook" IsReadOnly="True" AcceptsReturn="True"
                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                 ScrollViewer.CanContentScroll="True" PreviewTextInput="StrTextPreview"/>
                     </Grid>
-                    <Border x:Name="BorderBtnMedHist"  Grid.Row="3" Grid.Column="1" Background="Blue" MinWidth="100" MinHeight="30" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="10" MouseDown="BtnMedHist">
-                        <Label Focusable="False" FontSize="14" Content="Exemple" FontFamily="Myriad Pro" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
+                    <Border x:Name="BorderBtnMedHist"  Grid.Row="3" Grid.Column="1" Background="#7F29ABE2" MinWidth="100" MinHeight="30" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="10" MouseDown="BtnMedHist">
+                        <Label Focusable="False" FontSize="14" Content="Exemple" FontFamily="Myriad Pro" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black"/>
                     </Border>
                 </Grid>
             </Border>

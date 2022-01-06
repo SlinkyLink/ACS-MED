@@ -214,7 +214,19 @@ namespace ASUMED.Control
             int idRank = ControllerDB.GetRankID(position);
             int idAcc = idDoc;
             int idSpec = 0;
-            foreach(var table in ControllerDB.Tables)
+            foreach (var table in ControllerDB.Tables)
+            {
+                if (table is Accounts acc)
+                {
+                    if (acc.Username == login)
+                    {
+                        MessageBox.Show("Такий логін існує");
+                        return;
+                    }
+                }
+            }
+
+            foreach (var table in ControllerDB.Tables)
             {
                 if(table is Specialization)
                 {
@@ -225,6 +237,8 @@ namespace ASUMED.Control
                     }
                 }
             }
+            
+            
 
             int sh = 0;
             int c = 0;

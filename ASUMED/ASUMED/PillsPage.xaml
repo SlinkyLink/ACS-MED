@@ -8,7 +8,78 @@
       Height = "720"
       Width = "1280"
       Title="PillsPage" Loaded="PageLoaded">
-
+    <Page.Resources>
+        <Style TargetType="Border" x:Key="LeftBorder">
+            <Setter Property= "Margin" Value="4"/>
+            <Setter Property= "Background" Value="#7F29ABE2"/>
+            <Setter Property="MinHeight" Value="25"/>
+            <Setter Property="CornerRadius" Value="10"/>
+        </Style>
+        <Style TargetType="Label" x:Key="LeftLabel">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        <Style TargetType="Label" x:Key="LabelRight">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+        <Style TargetType="TextBox" x:Key="TexBoxRight">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="MinHeight" Value="15"/>
+            <Setter Property="Margin" Value="0 4 0 4"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="MinWidth" Value="200"/>
+        </Style>
+        <Style TargetType="Ellipse" x:Key="ControlElipse">
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Width" Value="35"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="15 0 15 0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <ContextMenu Style="{DynamicResource CtnMenuS}" x:Key="cmBorder" Background="#7F29ABE2"/>
+        <Style TargetType="ContextMenu" x:Key="CtnMenuS">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border  BorderBrush="#FF85BCD2" CornerRadius="5" BorderThickness="2" Background="#FF29ABE2" SnapsToDevicePixels="True">
+                            <StackPanel Orientation="Vertical">
+                                <Border Tag="DeleteB" MinWidth="150" BorderThickness="0" Background="Transparent" BorderBrush="#FF85BCD2" MouseDown="AddStorage">
+                                    <Label Style="{StaticResource LeftLabel}" Content="Добавити на склад" HorizontalAlignment="Center"/>
+                                </Border>
+                                <Border  BorderBrush="#FF85BCD2" BorderThickness="1"/>
+                                <Border Tag="UpdateB" MinWidth="150" BorderThickness="0" Background="Transparent" BorderBrush="#FF85BCD2" MouseDown="AddClient">
+                                    <Label Style="{StaticResource LeftLabel}" Content="Прописати" HorizontalAlignment="Center"/>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ContextMenu Style="{DynamicResource CtnMenuSW}" x:Key="cmBorderWrite" Background="#7F29ABE2"/>
+        <Style TargetType="ContextMenu" x:Key="CtnMenuSW">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border  BorderBrush="#FF85BCD2" CornerRadius="5" BorderThickness="2" Background="#FF29ABE2" SnapsToDevicePixels="True">
+                            <StackPanel Orientation="Vertical">
+                                <Border Tag="UpdateB" MinWidth="150" BorderThickness="0" Background="Transparent" BorderBrush="#FF85BCD2" MouseDown="AddClient">
+                                    <Label Style="{StaticResource LeftLabel}" Content="Прописати" HorizontalAlignment="Center"/>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+    </Page.Resources>
     <Border CornerRadius="15" Background="#FF29ABE2">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -16,15 +87,87 @@
                 <ColumnDefinition Width="7*"/>
             </Grid.ColumnDefinitions>
             <Border CornerRadius="15" Grid.Column="0" Background="#FFA0DFF8" Margin="0 0 1 0">
-
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="9.5*"/>
+                    </Grid.RowDefinitions>
+                    <Label x:Name="LabelFSName" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" FontWeight="Bold" Foreground="Black" Content="First Last NAME"/>
+                    <StackPanel Grid.Row="1" Orientation="Vertical" ScrollViewer.VerticalScrollBarVisibility="Auto"  ScrollViewer.CanContentScroll="True">
+                        <Grid x:Name="ScrollViewerList">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <StackPanel x:Name="ListPills" Orientation="Vertical">
+                                    <Border Style="{StaticResource LeftBorder}">
+                                        <Label Style="{StaticResource LeftLabel}" Content="Exemple 1"/>
+                                    </Border>
+                                    <Border Style="{StaticResource LeftBorder}">
+                                        <Label Style="{StaticResource LeftLabel}" Content="Exemple 2"/>
+                                    </Border>
+                                    <Border Style="{StaticResource LeftBorder}">
+                                        <Label Style="{StaticResource LeftLabel}" Content="Exemple 3"/>
+                                    </Border>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Grid>
+                        <StackPanel x:Name="AddBtn" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Ellipse  Style="{StaticResource ControlElipse}" Cursor="Hand" MouseDown="AddStorage">
+                                <Ellipse.Fill>
+                                    <ImageBrush Stretch="Uniform" ImageSource="Sources/AddIcon.png"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
             </Border>
-            <Grid Grid.Column="0" Margin="0 30 0 0">
-                <StackPanel x:Name="ListDoctorsPanel" Orientation="Vertical" >
-
-                </StackPanel>
-            </Grid>
             <Border CornerRadius="15" Grid.Column="1" Background="#FFA0DFF8" Margin="1 0 0 0">
-
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="0.5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="5*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Column="1" Grid.Row="1">
+                        <Grid>
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <StackPanel x:Name="LablesVaribles" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                        <Label Style="{StaticResource LabelRight}">Назва препарату</Label>
+                                        <Label Style="{StaticResource LabelRight}">Тип препарату</Label>
+                                        <Label Style="{StaticResource LabelRight}">К-ть на складі</Label>
+                                    </StackPanel>
+                                    <StackPanel  x:Name="TextBoxValues" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                        <TextBox x:Name="TextBoxNameValue" Style="{StaticResource TexBoxRight}" />
+                                        <TextBox x:Name="TextBoxTypeValue" Style="{StaticResource TexBoxRight}" />
+                                        <TextBox x:Name="TextBoxAmountValue" Style="{StaticResource TexBoxRight}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Row="2" Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="9*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Label Style="{StaticResource LabelRight}" HorizontalAlignment="Center">Список хворих, які приймають препарат</Label>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Border Name ="txtBoxBorder" Grid.Column="0" Grid.Row="0" >
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <TextBox x:Name="TextBoxListClient"
+                                                IsReadOnly="True" FontSize="18" FontFamily="Myriad Pro"/>
+                                </ScrollViewer>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </Grid>
             </Border>
         </Grid>
     </Border>

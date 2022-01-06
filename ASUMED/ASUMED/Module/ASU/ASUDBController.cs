@@ -155,6 +155,26 @@ namespace ASUMED
                                 }
                             );
                         }
+                        else if (table == "ClientPills")
+                        {
+                            try
+                            {
+                                Tables.Add
+                                (
+                                    new ClientPills
+                                    {
+                                        ClientID = ReaderDataBase.GetInt32(0),
+                                        PillID = ReaderDataBase.GetInt32(1),
+                                        Amount = ReaderDataBase.GetInt32(2)
+                                    }
+                                );
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message);
+                            }
+
+                        }
                         else if (table == "Clients")
                         {
                             try
@@ -264,6 +284,30 @@ namespace ASUMED
                                     CreatedAt = ReaderDataBase.GetString(2),
                                     Category= ReaderDataBase.GetString(3),
                                     Desc = ReaderDataBase.GetString(4),
+                                }
+                            );
+                        }
+                        else if (table == "PillType")
+                        {
+                            Tables.Add
+                            (
+                                new PillType
+                                {
+                                    ID = ReaderDataBase.GetInt32(0),
+                                    Name = ReaderDataBase.GetString(1),
+                                }
+                            );
+                        }
+                        else if (table == "Pills")
+                        {
+                            Tables.Add
+                            (
+                                new Pills
+                                {
+                                    ID = ReaderDataBase.GetInt32(0),
+                                    Name= ReaderDataBase.GetString(1),
+                                    Amount = ReaderDataBase.GetInt32(2),
+                                    TypeID = ReaderDataBase.GetInt32(3)
                                 }
                             );
                         }
@@ -791,6 +835,99 @@ namespace ASUMED
                 {
                     MessageBox.Show(ex.Message);
                 }
+            }
+            public List<Pills> GetPills(PillType type)
+            {
+                List<Pills> list = new();
+                CmdDataBase.CommandText = $@"SELECT Pills.ID
+                                             FROM PillType
+                                             INNER JOIN Pills ON PillType.ID = Pills.TypeID
+                                             WHERE PillType.ID = {type.ID}";
+                try
+                {
+                    ReaderDataBase = CmdDataBase.ExecuteReader();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                while (ReaderDataBase.Read())
+                {
+                    foreach(var table in Tables)
+                    {
+                        if(table is Pills pill)
+                        {
+                            if (pill.ID == ReaderDataBase.GetInt32(0))
+                            {
+                                list.Add(pill);
+                            }
+                        }
+                            
+                    }
+                }
+                ReaderDataBase.Close();
+
+                return list;
+            }
+            public PillType GetTypeOfPill(Pills pill)
+            {
+                PillType pillType = null;
+                CmdDataBase.CommandText = $@"SELECT PillType.ID
+                                             FROM Pills
+                                             INNER JOIN PillType ON PillType.ID = Pills.TypeID
+                                             WHERE Pills.ID = {pill.ID}";
+                try
+                {
+                    ReaderDataBase = CmdDataBase.ExecuteReader();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                while (ReaderDataBase.Read())
+                {
+                   foreach(var table in Tables)
+                    {
+                        if(table is PillType pp)
+                        {
+                            if(pp.ID == ReaderDataBase.GetInt32(0)) { pillType = pp; break; }
+                        }
+                    }
+                }
+                ReaderDataBase.Close();
+                if(pillType != null) return pillType;
+                else return null;
+            }
+            public List<Clients> GetPatientsPill(Pills pill)
+            {
+                List<Clients> clients = new List<Clients> ();
+                CmdDataBase.CommandText = $@"SELECT Clients.ID
+                                             FROM Pills
+                                             INNER JOIN ClientPills ON Pills.ID = ClientPills.PillID
+                                             INNER JOIN Clients ON ClientPills.ClientID = Clients.ID
+                                             WHERE Pills.ID = {pill.ID}";
+                try
+                {
+                    ReaderDataBase = CmdDataBase.ExecuteReader();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                while (ReaderDataBase.Read())
+                {
+                    foreach (var table in Tables)
+                    {
+                        if (table is Clients)
+                        {
+                            var client = (Clients)table;
+                            if(client.ID == ReaderDataBase.GetInt32(0))
+                                clients.Add(client);
+                        }
+                    }
+                }
+                ReaderDataBase.Close();
+                return clients;
             }
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         }

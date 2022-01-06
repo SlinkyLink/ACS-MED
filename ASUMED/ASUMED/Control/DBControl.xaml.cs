@@ -74,6 +74,13 @@ namespace ASUMED.Control
                         EMode= this.EMode
                     };
                     break;
+                case TPage.Pills:
+                    WindowContent.Content = new PillsExePage
+                    {
+                        ControllerDB = this.ControllerDB,
+                        EMode = this.EMode
+                    };
+                    break;
                 default:
                     break;
             }

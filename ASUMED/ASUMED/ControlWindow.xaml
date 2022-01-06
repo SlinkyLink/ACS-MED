@@ -52,7 +52,7 @@
                 <StackPanel x:Name="PagesB" Grid.Column="0"  Margin="90,0,0,0" Orientation="Horizontal" HorizontalAlignment="Left"  
                             ScrollViewer.HorizontalScrollBarVisibility="Auto">
                     <Border Style="{StaticResource UpBorder}" Tag="{x:Static en:TPage.Doctors}" Cursor="Hand" MouseDown="ChangePage" >
-                        <Label Style="{StaticResource UpLabel}" Content="Доктори"/>
+                        <Label Style="{StaticResource UpLabel}" Content="Лікарі"/>
                     </Border>
                     <Border Style="{StaticResource UpBorder}" Tag="{x:Static en:TPage.Patients}" Cursor="Hand" MouseDown="ChangePage">
                         <Label Style="{StaticResource UpLabel}" Content="Пацієнти"/>
@@ -61,14 +61,14 @@
                         <Label Style="{StaticResource UpLabel}"  Content="Процедури" />
                     </Border>
                     <Border Style="{StaticResource UpBorder}"  Tag="{x:Static en:TPage.Pills}" Cursor="Hand" MouseDown="ChangePage">
-                        <Label Style="{StaticResource UpLabel}" Content="Ліки"/>
+                        <Label Style="{StaticResource UpLabel}" Content="Забезпечення"/>
                     </Border>
                     <Border Style="{StaticResource UpBorder}" Tag="{x:Static en:TPage.Help}" Cursor="Hand" MouseDown="ChangePage">
                         <Label Style="{StaticResource UpLabel}" Content="Допомога"/>
                     </Border>
-                    <Border Style="{StaticResource UpBorder}" Tag="{x:Static en:TPage.Configuration}" Cursor="Hand" MouseDown="ChangePage">
+                    <!--<Border Style="{StaticResource UpBorder}" Tag="{x:Static en:TPage.Configuration}" Cursor="Hand" MouseDown="ChangePage">
                         <Label Style="{StaticResource UpLabel}" Content="Налаштування"/>
-                    </Border>
+                    </Border>-->
                     <Border Style="{StaticResource UpBorder}" Tag="{x:Static en:TPage.About}" Cursor="Hand" MouseDown="ChangePage">
                         <Label Style="{StaticResource UpLabel}" Content="Про програму"/>
                     </Border>

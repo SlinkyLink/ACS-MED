@@ -128,12 +128,22 @@ namespace ASUMED
                     };
                     break;
                 case TPage.Help:
+                    WindowContent.Content = new HelpsPage()
+                    {
+                        scrollH = scrollH,
+                        scrollW = scrollW,
+                        ControllerDB = this.ControllerDB,
+                        MaxHeight = Height - offsizeH,
+                        MaxWidth = Width - offsizeW,
+                    };
                     break;
                 case TPage.Configuration:
                     break;
                 case TPage.About:
                     WindowContent.Content = new AboutPage
                     {
+                        scrollH = scrollH,
+                        scrollW = scrollW,
                         ControllerDB = this.ControllerDB,
                         MaxHeight = Height - offsizeH,
                         MaxWidth = Width - offsizeW
@@ -150,13 +160,14 @@ namespace ASUMED
                     Border clickBorder = (Border)sender; 
                    if(border.Tag == clickBorder.Tag)
                    {
-                        border.Background = Brushes.Blue;
-                   }
-                   else
-                    {
                         var brush = new BrushConverter();
-                        border.Background = (Brush)brush.ConvertFrom("#FFC8F0FF");
+                        border.Background = (Brush)brush.ConvertFrom("#FF29C8FF");
                     }
+                   else
+                {
+                    var brush = new BrushConverter();
+                    border.Background = (Brush)brush.ConvertFrom("#FFC8F0FF");
+                }
                 }
             }
         }
@@ -271,6 +282,12 @@ namespace ASUMED
                     if (Height > 110f)
                         patientsPage.ScrollViewerList.MaxHeight = Height - 110f;
                 }
+                if (WindowContent.Content is PillsPage)
+                {
+                    var patientsPage = (PillsPage)WindowContent.Content;
+                    if (Height > 110f)
+                        patientsPage.ScrollViewerList.MaxHeight = Height - 110f;
+                }
             }
         }
     }
@@ -287,12 +304,14 @@ namespace ASUMED
     public enum EMode
     {
         Add,
-        Update
+        Update,
+        AddPill
     }
     public enum EReference
     {
         LICENCE,
-        DEVELOPERS
+        DEVELOPERS,
+        HELP
     }
     public enum ERank
     {

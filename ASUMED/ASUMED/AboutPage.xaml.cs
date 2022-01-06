@@ -22,6 +22,7 @@ namespace ASUMED
     {
         public ASUDBController ControllerDB { get; set; }
         private EReference refer;
+        public double scrollW, scrollH;
         public AboutPage()
         {
             InitializeComponent();

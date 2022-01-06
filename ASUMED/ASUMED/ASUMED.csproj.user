@@ -25,6 +25,9 @@
     <Compile Update="Control\DoctorExePage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Control\PillsExePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Control\ProcedureExePage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -61,6 +64,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Control\DoctorExePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Control\PillsExePage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Control\ProcedureExePage.xaml">

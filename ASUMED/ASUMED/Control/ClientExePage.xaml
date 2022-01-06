@@ -9,7 +9,7 @@
       Title="ClientExePage" Loaded="PageLoaded">
     <Page.Resources>
         <Style TargetType="Label" x:Key="VaribleLabel">
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="HorizontalAlignment" Value="Right"/>
@@ -55,7 +55,7 @@
             <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
         </Style>
         <Style TargetType="Label" x:Key="ContextLabel">
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -141,10 +141,10 @@
         </Grid>
         <StackPanel Grid.Row="1" Grid.RowSpan="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
             <Border x:Name="BorderExe" Style="{StaticResource BtnC}" MouseDown="ExecuteBtn">
-                <Label HorizontalAlignment="Center" FontSize="15" Foreground="#FF93DBF7" />
+                <Label HorizontalAlignment="Center" FontSize="15" Foreground="Black" />
             </Border>
             <Border Style="{StaticResource BtnC}" MouseDown="CloseWin">
-                <Label HorizontalAlignment="Center" FontSize="15" Foreground="#FF93DBF7">
+                <Label HorizontalAlignment="Center" FontSize="15" Foreground="Black">
                     Відмова
                 </Label>
             </Border>

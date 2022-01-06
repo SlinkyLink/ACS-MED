@@ -84,9 +84,7 @@
                 </Grid>
             </Grid>
             <Grid Grid.Row="3">
-                <Label HorizontalAlignment="Center" FontWeight="Light" Foreground="#FF57C3ED" FontSize="10">
-                    MATY JOPA EBAL VASILYEVA INDUSTRIES
-                </Label>
+                <Label HorizontalAlignment="Center" FontWeight="Light" Foreground="#FF57C3ED" FontSize="10" Content="ТОВ &quot;S&amp;S&quot;"/>
             </Grid>
         </Grid>
     </Border>

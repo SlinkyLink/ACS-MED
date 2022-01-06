@@ -7,22 +7,54 @@
       mc:Ignorable="d" 
       Height = "720"
       Width = "1280"
-      Title="HelpsPage">
+      Title="HelpsPage" Loaded="PageLoaded">
 
+    <Page.Resources>
+        <Style TargetType="Border" x:Key="LeftBorder">
+            <Setter Property= "Margin" Value="4"/>
+            <Setter Property= "Background" Value="#7F29ABE2"/>
+            <Setter Property="MinHeight" Value="25"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style TargetType="Label" x:Key="LeftLabel">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+    </Page.Resources>
     <Border CornerRadius="15" Background="#FF29ABE2">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="7*"/>
             </Grid.ColumnDefinitions>
-            <Border CornerRadius="15" Grid.Column="0" Background="#FFA0DFF8" Margin="0 0 1 0">
+            <Border CornerRadius="15" Grid.Column="0" Background="#FFA0DFF8" Margin="0 0 1 0" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="9.5*"/>
+                    </Grid.RowDefinitions>
+                    <Label x:Name="LabelFSName" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" FontWeight="Bold" Foreground="Black" Content="First Last NAME"/>
+                </Grid>
             </Border>
-            <Grid Grid.Column="0" Margin="0 30 0 0">
-                <StackPanel x:Name="ListDoctorsPanel" Orientation="Vertical" >
-
-                </StackPanel>
-            </Grid>
-            <Border CornerRadius="15" Grid.Column="1" Background="#FFA0DFF8" Margin="1 0 0 0">
+            <Border x:Name="BorderContent" CornerRadius="15" Grid.Column="1" Background="#FFA0DFF8" Margin="1 0 0 0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="75"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" x:Name="LabelPageInfo" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20" FontFamily="Myriad Pro" Foreground="Black" Content="Допомога"/>
+                    <TextBox Grid.Row="1" x:Name="TextBoxContent" Margin="25" IsReadOnly="True"
+                                TextAlignment="Center"
+                                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                ScrollViewer.CanContentScroll="True"
+                                TextWrapping="Wrap" AcceptsReturn="True">
+                    </TextBox>
+                </Grid>
             </Border>
         </Grid>
     </Border>
